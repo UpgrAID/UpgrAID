@@ -5,7 +5,6 @@ import dj_database_url
 
 DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
-STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
 
 BLACKLIST = ['debug_toolbar', 'django_extensions']
 INSTALLED_APPS = tuple([app for app in INSTALLED_APPS if app not in BLACKLIST])
