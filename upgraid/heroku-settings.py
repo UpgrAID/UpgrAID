@@ -3,7 +3,7 @@ import os
 import dj_database_url
 
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
 STRIPE_API_KEY = os.environ['STRIPE_API_KEY']
 
