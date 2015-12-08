@@ -4,6 +4,15 @@ from rest_framework import serializers
 from user.models import Theme, Achievement, Rank, Group
 
 
+
+class GoalSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Goal
+        fields = ('id', 'title', 'user')
+
+
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
 
@@ -20,6 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'post', 'description',)
+
+
 class PostSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
     comment_set = CommentSerializer(many=True, read_only=True)
@@ -29,20 +46,12 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set')
 
 
-class GoalSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+class GroupSerializer(serializers.ModelSerializer):
+    user_set = UserSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Goal
-        fields = ('id', 'title', 'user')
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
-
-    class Meta:
-        model = Comment
-        fields = ('id', 'post', 'description',)
+        model = Group
+        fields = ('id', 'theme', 'user_limit', 'user_set')
 
 
 class ThemeSerializer(serializers.ModelSerializer):
@@ -51,14 +60,6 @@ class ThemeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Theme
         fields = ('id', 'title', 'group_set')
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    user_set = UserSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Group
-        fields = ('id', 'theme', 'user_limit', 'user_set')
 
 
 class RankSerializer(serializers.ModelSerializer):
