@@ -30,6 +30,13 @@ class ListCreatePost(generics.ListCreateAPIView):
         user = self.request.user
         serializer.save(user=user)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
 
 class DetailUpdatePost(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -46,6 +53,13 @@ class ListCreateGoal(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         user = self.request.user
         serializer.save(user=user)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
 
 
 class DetailUpdateGoal(generics.RetrieveUpdateDestroyAPIView):
@@ -64,6 +78,12 @@ class ListCreateComment(generics.ListCreateAPIView):
         user = self.request.user
         serializer.save(user=user)
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
 
 class DetailUpdateComment(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
