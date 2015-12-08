@@ -5,6 +5,9 @@ from user.models import Theme, Achievement, Rank, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
+    goal_set = serializers.HyperlinkedRelatedField(many=True,
+                                                    queryset=Goal.objects.all(),
+                                                    view_name='api_goal_detail_update')
 
     class Meta:
         model = User
@@ -20,49 +23,62 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+    comment_set = serializers.HyperlinkedRelatedField(many=True,
+                                                    queryset=Comment.objects.all(),
+                                                    view_name='api_comment_detail_update')
 
     class Meta:
         model = Post
-        fields = ('title', 'description', 'user', 'goal', 'comment_set')
+        fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set')
 
 
 class GoalSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Goal
-        fields = ('title',)
+        fields = ('id', 'title', 'user')
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Comment
-        fields = ('post', 'description',)
+        fields = ('id', 'post', 'description',)
 
 
 class ThemeSerializer(serializers.ModelSerializer):
+    group_set = serializers.HyperlinkedRelatedField(many=True,
+                                                    queryset=Group.objects.all(),
+                                                    view_name='api_group_detail_update')
 
     class Meta:
         model = Theme
-        fields = ('title', 'group_set')
+        fields = ('id', 'title', 'group_set')
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    user_set = serializers.HyperlinkedRelatedField(many=True,
+                                                    queryset=User.objects.all(),
+                                                    view_name='api_user_detail_update')
 
     class Meta:
         model = Group
-        fields = ('theme', 'user_limit', 'user_set')
+        fields = ('id', 'theme', 'user_limit', 'user_set')
 
 
 class RankSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rank
-        fields = ('title', 'exp_required')
+        fields = ('id', 'title', 'exp_required')
 
 
 class AchievementSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Achievement
-        fields = ('name', 'description', 'point', 'badge_amount', 'user')
+        fields = ('id', 'name', 'description', 'point', 'badge_amount', 'user')
