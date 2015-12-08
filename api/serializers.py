@@ -5,9 +5,7 @@ from user.models import Theme, Achievement, Rank, Group
 
 
 class UserSerializer(serializers.ModelSerializer):
-    goal_set = serializers.HyperlinkedRelatedField(many=True,
-                                                    queryset=Goal.objects.all(),
-                                                    view_name='api_goal_detail_update')
+    goal_set = GoalSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -24,9 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.id')
-    comment_set = serializers.HyperlinkedRelatedField(many=True,
-                                                    queryset=Comment.objects.all(),
-                                                    view_name='api_comment_detail_update')
+    comment_set = CommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -50,9 +46,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class ThemeSerializer(serializers.ModelSerializer):
-    group_set = serializers.HyperlinkedRelatedField(many=True,
-                                                    queryset=Group.objects.all(),
-                                                    view_name='api_group_detail_update')
+    group_set = GroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = Theme
@@ -60,9 +54,7 @@ class ThemeSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    user_set = serializers.HyperlinkedRelatedField(many=True,
-                                                    queryset=User.objects.all(),
-                                                    view_name='api_user_detail_update')
+    user_set = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Group
