@@ -30,14 +30,14 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('title', 'user')
+        fields = ('title',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('post', 'description', 'user')
+        fields = ('post', 'description',)
 
 
 class ThemeSerializer(serializers.ModelSerializer):
@@ -51,7 +51,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ('theme', 'user_limit', 'user')
+        fields = ('theme', 'user_limit', 'user_set')
 
 
 class RankSerializer(serializers.ModelSerializer):
