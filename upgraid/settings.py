@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'debug_toolbar',
-    'rest_framework.authtoken'
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders'
     'api',
     'post',
     'user',
