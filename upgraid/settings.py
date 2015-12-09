@@ -141,4 +141,4 @@ REST_FRAMEWORK = {
     )
 }
 
-AUTH_PROFILE_MODULE = 'user.Profile'
+AUTH_PROFILE_MODULE = 'user.models.Profile'
