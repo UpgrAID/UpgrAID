@@ -1,11 +1,11 @@
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers import UserSerializer, PostSerializer, GoalSerializer, \
     CommentSerializer, ThemeSerializer, GroupSerializer, RankSerializer, \
-    AchievementSerializer
+    AchievementSerializer, ProfileSerializer
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import generics, permissions
-from user.models import Theme, Group, Rank, Achievement
+from user.models import Theme, Group, Rank, Achievement, Profile
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -85,6 +85,7 @@ class ListCreateComment(generics.ListCreateAPIView):
             qs = qs.filter(user__username=username)
         return qs
 
+
 class DetailUpdateComment(generics.RetrieveUpdateDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -130,3 +131,11 @@ class ListAchievement(generics.ListAPIView):
 class DetailAchievement(generics.RetrieveAPIView):
     queryset = Achievement.objects.all()
     serializer_class = AchievementSerializer
+
+
+class ListCreateProfile(generics.ListCreateAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
