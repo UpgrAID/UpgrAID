@@ -47,8 +47,9 @@ class Profile(models.Model):
         else:
             return '{} has been inactive for {} days'.format(self.user, diff)
 
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
 
-    post_save.connect(create_user_profile, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)

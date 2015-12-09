@@ -6,7 +6,7 @@ class ActivityMiddleware(object):
     def process_request(self, request):
         if request.user.is_authenticated():
             today = datetime.date.today()
-            profile = request.user.get_profile()
+            profile = request.user.profile
             if profile.last_active is None:
                 try:
                     profile.last_active = today
