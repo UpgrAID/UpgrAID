@@ -32,4 +32,7 @@ urlpatterns = [
     url(r'^achievements/(?P<pk>\d+)', DetailAchievement.as_view(),
         name='api_achievement_detail'),
     url(r'^achievements/', ListAchievement.as_view(), name='api_achievement_list'),
+    url(r'^profiles/(?P<pk>\d+)', DetailAchievement.as_view(),
+        name='api_profile_detail_create'),
+    url(r'^profiles/', ListAchievement.as_view(), name='api_profile_list'),
 ]
