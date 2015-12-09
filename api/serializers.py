@@ -29,11 +29,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
 
     class Meta:
         model = Profile
         fields = ('id', 'user', 'last_active')
+        read_only_fields = ('last_active',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
