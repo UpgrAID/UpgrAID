@@ -1,3 +1,4 @@
+import datetime
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -23,10 +24,25 @@ class Achievement(models.Model):
     point = models.IntegerField(default=10)
     badge_amount = models.IntegerField(default=3)
     user = models.ForeignKey(User, blank=False, null=True)
+    date_create = models.DateTimeField(auto_now_add=True)
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
     exp = models.IntegerField()
     rank = models.ForeignKey(Rank)
+    last_active = models.DateField(null=True, blank=True)
 
+
+    def activity(self):
+        # checks activity, if last active is greater the 21 days mark inactive for all goals
+        today = datetime.date.today()
+        diff = today - self.last_active
+        if self.last_active is None:
+            return 'New User'
+        elif diff >= 21:
+            for goal in self.user.goal_set.all():
+                goal.inactive = True
+            return 'All goals are inactive'
+        else:
+            return '{} has been inactive for {} days'.format(self.user, diff)
