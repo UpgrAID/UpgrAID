@@ -1,8 +1,7 @@
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import serializers
-from user.models import Theme, Achievement, Rank, Group
-
+from user.models import Theme, Achievement, Rank, Group, Profile
 
 
 class GoalSerializer(serializers.ModelSerializer):
@@ -10,7 +9,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'user')
+        fields = ('id', 'title', 'user', 'created_at')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -27,6 +26,14 @@ class UserSerializer(serializers.ModelSerializer):
                                         password=validated_data['password'],
                                         first_name=validated_data['first_name'])
         return user
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'exp', 'rank', 'user', 'last_active')
 
 
 class CommentSerializer(serializers.ModelSerializer):
