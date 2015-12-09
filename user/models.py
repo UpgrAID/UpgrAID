@@ -30,8 +30,8 @@ class Achievement(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    exp = models.IntegerField()
-    rank = models.ForeignKey(Rank)
+    # exp = models.IntegerField()
+    # rank = models.ForeignKey(Rank)
     last_active = models.DateField(null=True, blank=True)
 
     def activity(self):
