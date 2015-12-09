@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = UserSerializer
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = Profile
