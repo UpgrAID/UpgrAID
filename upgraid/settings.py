@@ -57,7 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'user.middleware.ActivityMiddleware'
+    # 'user.middleware.ActivityMiddleware'
 ]
 
 ROOT_URLCONF = 'upgraid.urls'
