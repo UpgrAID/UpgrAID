@@ -1,4 +1,5 @@
 import datetime
+from user.models import Profile
 
 
 class ActivityMiddleware(object):

@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_save
 
 
 class Theme(models.Model):
@@ -33,7 +34,6 @@ class Profile(models.Model):
     rank = models.ForeignKey(Rank)
     last_active = models.DateField(null=True, blank=True)
 
-
     def activity(self):
         # checks activity, if last active is greater the 21 days mark inactive for all goals
         today = datetime.date.today()
@@ -46,3 +46,9 @@ class Profile(models.Model):
             return 'All goals are inactive'
         else:
             return '{} has been inactive for {} days'.format(self.user, diff)
+
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    post_save.connect(create_user_profile, sender=User)
