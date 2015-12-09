@@ -33,7 +33,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'exp', 'rank', 'user', 'last_active')
+        fields = ('id', 'user', 'last_active')
 
 
 class CommentSerializer(serializers.ModelSerializer):
