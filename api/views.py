@@ -163,7 +163,7 @@ class ListCreateFriendship(generics.ListCreateAPIView):
         return qs
 
 
-class DestroyFriendship(generics.DestroyAPIView):
+class DetailDestroyFriendship(generics.RetrieveDestroyAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly)

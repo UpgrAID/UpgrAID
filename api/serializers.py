@@ -89,4 +89,4 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('from_friend', 'to_friend')
+        fields = ('id', 'from_friend', 'to_friend')
