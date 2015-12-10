@@ -166,4 +166,3 @@ class ListCreateFriendship(generics.ListCreateAPIView):
 class DetailDestroyFriendship(generics.RetrieveDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
