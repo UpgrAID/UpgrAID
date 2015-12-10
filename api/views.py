@@ -140,6 +140,13 @@ class ListCreateProfile(generics.ListAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
 
 class DetailProfile(generics.RetrieveAPIView):
     queryset = Profile.objects.all()

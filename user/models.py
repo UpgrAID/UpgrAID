@@ -28,11 +28,22 @@ class Achievement(models.Model):
     date_create = models.DateTimeField(auto_now_add=True)
 
 
+class FriendsList(models.Model):
+    user = models.ForeignKey(User)
+    friend = models.ForeignKey(User)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User)
     # exp = models.IntegerField()
     # rank = models.ForeignKey(Rank)
     last_active = models.DateField(null=True, blank=True)
+    friends = models.ManyToManyField(User, through=FriendsList)
+
+    @property
+    def friends_count(self):
+        count = self.friends.all().count()
+        return count
 
     def activity(self):
         # checks activity, if last active is greater the 21 days mark inactive for all goals
