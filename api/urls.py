@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^profiles/(?P<pk>\d+)', DetailProfile.as_view(),
         name='api_profile_detail'),
     url(r'^profiles/', ListProfile.as_view(), name='api_profile_list'),
-    url(r'^profiles/(?P<pk>\d+)', DestroyFriendship.as_view(),
+    url(r'^friends/(?P<pk>\d+)', DestroyFriendship.as_view(),
         name='api_friendship_destroy'),
-    url(r'^profiles/', ListCreateFriendship.as_view(), name='api_friendship_list_create'),
+    url(r'^friends/', ListCreateFriendship.as_view(), name='api_friendship_list_create'),
 ]
