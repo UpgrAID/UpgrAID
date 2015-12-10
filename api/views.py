@@ -133,7 +133,7 @@ class DetailAchievement(generics.RetrieveAPIView):
     serializer_class = AchievementSerializer
 
 
-class ListCreateProfile(generics.ListCreateAPIView):
+class ListCreateProfile(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
