@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import serializers
-from user.models import Theme, Achievement, Rank, Group, Profile
+from user.models import Theme, Achievement, Rank, Group, Profile, Friendship
 
 
 class GoalSerializer(serializers.ModelSerializer):
@@ -83,3 +83,10 @@ class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Achievement
         fields = ('id', 'name', 'description', 'point', 'badge_amount', 'user')
+
+
+class FriendshipSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Friendship
+        fields = ('from_friend', 'to_friend')

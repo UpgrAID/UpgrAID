@@ -9,6 +9,11 @@ class Goal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class Tag(models.Model):
+    word = models.CharField(max_length=40)
+    goal = models.ForeignKey(Goal)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=40)
     description = models.TextField()

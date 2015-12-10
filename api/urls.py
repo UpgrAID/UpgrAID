@@ -1,8 +1,8 @@
 from api.views import ListCreateUsers, DetailUsers, DetailUpdatePost, \
     ListCreatePost, DetailUpdateGoal, ListCreateGoal, DetailUpdateComment, \
     ListCreateComment, DetailTheme, ListTheme, DetailGroup, ListGroup, \
-    DetailRank, ListRank, DetailAchievement, ListAchievement, ListCreateProfile, \
-    DetailProfile
+    DetailRank, ListRank, DetailAchievement, ListAchievement, \
+    DetailProfile, ListProfile
 from django.conf.urls import url
 from rest_framework.authtoken import views
 
@@ -35,5 +35,5 @@ urlpatterns = [
     url(r'^achievements/', ListAchievement.as_view(), name='api_achievement_list'),
     url(r'^profiles/(?P<pk>\d+)', DetailProfile.as_view(),
         name='api_profile_detail'),
-    url(r'^profiles/', ListCreateProfile.as_view(), name='api_profile_list'),
+    url(r'^profiles/', ListProfile.as_view(), name='api_profile_list'),
 ]

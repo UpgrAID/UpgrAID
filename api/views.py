@@ -1,11 +1,11 @@
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers import UserSerializer, PostSerializer, GoalSerializer, \
     CommentSerializer, ThemeSerializer, GroupSerializer, RankSerializer, \
-    AchievementSerializer, ProfileSerializer
+    AchievementSerializer, ProfileSerializer, FriendshipSerializer
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import generics, permissions
-from user.models import Theme, Group, Rank, Achievement, Profile
+from user.models import Theme, Group, Rank, Achievement, Profile, Friendship
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -133,12 +133,10 @@ class DetailAchievement(generics.RetrieveAPIView):
     serializer_class = AchievementSerializer
 
 
-class ListCreateProfile(generics.ListAPIView):
+class ListProfile(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-    def perform_create(self, serializer):
-        serializer.save()
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -151,3 +149,21 @@ class ListCreateProfile(generics.ListAPIView):
 class DetailProfile(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+
+class ListCreateFriendship(generics.ListCreateAPIView):
+    queryset = Friendship.objects.all()
+    serializer_class = FriendshipSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(to_friend__username=username)
+        return qs
+
+
+class DestroyFriendship(generics.DestroyAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
