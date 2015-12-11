@@ -8,7 +8,7 @@ class Goal(models.Model):
     user = models.ForeignKey(User)
     inactive = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    # theme = models.ForeignKey(Theme)
+    theme = models.ForeignKey(Theme)
 
 
 class Post(models.Model):
