@@ -1,3 +1,33 @@
 from django.contrib import admin
+from user.models import Theme, Group, Rank, Achievement, Friendship, Profile
 
-# Register your models here.
+
+@admin.register(Theme)
+class ThemeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+
+
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'theme', 'user_limit', 'user', 'full')
+
+
+@admin.register(Rank)
+class RankAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'exp_required')
+
+
+@admin.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'description', 'point', 'badge_amount',
+                    'user', 'date_created')
+
+
+@admin.register(Friendship)
+class FriendshipAdmin(admin.ModelAdmin):
+    list_display = ('id', 'to_friend', 'from_friend')
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'last_active')

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from user.models import Theme
 
 
 class Goal(models.Model):
@@ -7,11 +8,7 @@ class Goal(models.Model):
     user = models.ForeignKey(User)
     inactive = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-class Tag(models.Model):
-    word = models.CharField(max_length=40)
-    goal = models.ForeignKey(Goal)
+    # theme = models.ForeignKey(Theme)
 
 
 class Post(models.Model):

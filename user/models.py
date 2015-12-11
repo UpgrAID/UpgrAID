@@ -16,6 +16,11 @@ class Group(models.Model):
     user_limit = models.IntegerField(default=20)
     user = models.ManyToManyField(User)
 
+    @property
+    def full(self):
+        if self.user_set.count() == self.user_limit:
+            return True
+        
     def __str__(self):
         return '{} group'.format(self.theme)
 
