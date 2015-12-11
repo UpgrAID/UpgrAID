@@ -9,7 +9,7 @@ class GoalAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description', 'user', 'goal', 'craeted_at')
+    list_display = ('id', 'description', 'user', 'goal', 'created_at')
 
 
 @admin.register(Comment)

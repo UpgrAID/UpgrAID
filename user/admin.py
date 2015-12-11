@@ -9,7 +9,7 @@ class ThemeAdmin(admin.ModelAdmin):
 
 @admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('id', 'theme', 'user_limit', 'user', 'full')
+    list_display = ('id', 'theme', 'user_limit', 'full')
 
 
 @admin.register(Rank)
@@ -20,7 +20,7 @@ class RankAdmin(admin.ModelAdmin):
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'point', 'badge_amount',
-                    'user', 'date_created')
+                    'user', 'date_create')
 
 
 @admin.register(Friendship)
