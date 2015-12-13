@@ -8,7 +8,7 @@ from rest_framework.authtoken import views
 
 
 urlpatterns = [
-    url(r'^api-token-auth/', views.obtain_auth_token),
+    url(r'^api-token-auth/', views.obtain_auth_token, name='token_auth'),
     url(r'^users/(?P<pk>\d+)', DetailUsers.as_view(),
         name='api_user_detail'),
     url(r'^users/', ListCreateUsers.as_view(), name='api_user_list'),

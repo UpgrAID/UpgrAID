@@ -36,11 +36,20 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set')
 
 
+class UserFriendSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name')
+
+
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
     group_set = GroupSerializer(many=True, read_only=True)
+    friend_set = UserFriendSerializer(many=True, read_only=True)
+    to_friend_set = UserFriendSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
