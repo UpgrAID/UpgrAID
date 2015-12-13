@@ -48,8 +48,7 @@ class UserSerializer(serializers.ModelSerializer):
     post_set = PostSerializer(many=True, read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
     group_set = GroupSerializer(many=True, read_only=True)
-    # friend_set = UserFriendSerializer(many=True, read_only=True)
-    # to_friend_set = UserFriendSerializer(many=True, read_only=True)
+
 
     class Meta:
         model = User
@@ -101,6 +100,8 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
+    friend_set = UserFriendSerializer(many=True, read_only=True)
+    to_friend_set = UserFriendSerializer(many=True, read_only=True)
 
     class Meta:
         model = Friendship
