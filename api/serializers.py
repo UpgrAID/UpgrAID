@@ -12,6 +12,13 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'user', 'theme', 'created_at')
 
 
+class GroupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        fields = ('id', 'theme', 'user_limit', 'user')
+
+
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
 
@@ -58,13 +65,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('id', 'user', 'last_active')
         read_only_fields = ('last_active',)
-
-
-class GroupSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Group
-        fields = ('id', 'theme', 'user_limit', 'user')
 
 
 
