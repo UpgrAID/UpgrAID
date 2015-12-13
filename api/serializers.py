@@ -14,13 +14,16 @@ class GoalSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
+    post_set = PostSerializer(many=True, read_only=True)
+    comment_set = CommentSerializer(many=True, read_only=True)
+    group_set = GroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'first_name',
                   'goal_set', 'post_set', 'comment_set', 'group_set',
                   'friend_set', 'to_friend_set')
-        read_only_fields = ('group_set', 'friend_set', 'to_friend_set')
+        read_only_fields = ('friend_set', 'to_friend_set')
 
     def create(self, validated_data):
 
