@@ -17,6 +17,9 @@ class UserSerializer(serializers.ModelSerializer):
     friend_set = serializers.HyperlinkedRelatedField(many=True,
                                                      queryset=Profile.objects.all(),
                                                      view_name='api_profile_detail')
+    to_friend_set = serializers.HyperlinkedRelatedField(many=True,
+                                                     queryset=Profile.objects.all(),
+                                                     view_name='api_profile_detail')
 
     class Meta:
         model = User
