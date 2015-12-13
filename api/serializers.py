@@ -43,12 +43,38 @@ class UserFriendSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name')
 
 
+class FriendshipSerializer(serializers.ModelSerializer):
+    from_friend = UserFriendSerializer(read_only=True)
+    to_friend = UserFriendSerializer(read_only=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('id', 'from_friend', 'to_friend')
+
+
+class FriendsAddedSerializer(serializers.ModelSerializer):
+    to_friend = UserFriendSerializer(read_only=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('id', 'to_friend')
+
+
+class FriendsAddedMeSerializer(serializers.ModelSerializer):
+    from_friend = UserFriendSerializer(read_only=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('id', 'from_friend')
+
+
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
     group_set = GroupSerializer(many=True, read_only=True)
-
+    friend_set = FriendsAddedSerializer(many=True, read_only=True)
+    to_friend_set = FriendsAddedMeSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
@@ -97,12 +123,3 @@ class AchievementSerializer(serializers.ModelSerializer):
     class Meta:
         model = Achievement
         fields = ('id', 'name', 'description', 'point', 'badge_amount', 'user')
-
-
-class FriendshipSerializer(serializers.ModelSerializer):
-    from_friend = UserFriendSerializer(many=True, read_only=True)
-    to_friend = UserFriendSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Friendship
-        fields = ('id', 'from_friend', 'to_friend')
