@@ -18,7 +18,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password', 'first_name',
-                  'goal_set', 'group_set', 'friend_set', 'to_friend_set')
+                  'goal_set', 'post_set', 'comment_set', 'group_set',
+                  'friend_set', 'to_friend_set')
         read_only_fields = ('group_set', 'friend_set', 'to_friend_set')
 
     def create(self, validated_data):
