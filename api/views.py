@@ -140,7 +140,6 @@ class ListProfile(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
-
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)

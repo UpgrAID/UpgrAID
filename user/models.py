@@ -37,7 +37,7 @@ class Rank(models.Model):
 
 class Achievement(models.Model):
     name = models.CharField(max_length=30)
-    description = models.CharField (max_length=50)
+    description = models.CharField(max_length=50)
     point = models.IntegerField(default=10)
     badge_amount = models.IntegerField(default=3)
     user = models.ForeignKey(User, blank=False, null=True)

@@ -14,12 +14,6 @@ class GoalSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
-    friend_set = serializers.HyperlinkedRelatedField(many=True,
-                                                     queryset=Profile.objects.all(),
-                                                     view_name='api_profile_detail')
-    to_friend_set = serializers.HyperlinkedRelatedField(many=True,
-                                                     queryset=Profile.objects.all(),
-                                                     view_name='api_profile_detail')
 
     class Meta:
         model = User
