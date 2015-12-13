@@ -18,8 +18,10 @@ class Group(models.Model):
 
     @property
     def full(self):
-        if self.user_set.count() == self.user_limit:
+        if len(self.user.all()) == self.user_limit:
             return True
+        else:
+            return False
         
     def __str__(self):
         return '{} group'.format(self.theme)

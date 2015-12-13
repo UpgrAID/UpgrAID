@@ -13,20 +13,25 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
-# @receiver(post_save, sender=Goal)
-# def create_group(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         goal = instance.title
-#         goal = goal.split()
-#         same_goals = []
-#         for word in goal:
-#             for objects in Goal.objects.filter(title__icontains=word,
-#                                                theme=instance.theme):
-#                 if 'not' not in objects.title:
-#                     same_goals.append(object)
-#         if same_goals.count() > 0:
-#             goal_count = Counter(same_goals)
-#             closest_goal = goal_count.most_common(1)[0][0]
-#             Group.objects.create(theme=instance.theme, user=instance.user)
-#         else:
-#             Group.objects.create()
+@receiver(post_save, sender=Goal)
+def create_group(sender, instance=None, created=False, **kwargs):
+    if created:
+        goal = instance.title
+        goal = goal.split()
+        same_goals = []
+        for word in goal:
+            for objects in Goal.objects.filter(title__icontains=word,
+                                               theme=instance.theme):
+                if 'not' not in objects.title and objects.id != instance.id:
+                    same_goals.append(objects)
+        if len(same_goals) > 0:
+            goal_count = Counter(same_goals)
+            goal_count = goal_count.most_common()
+            for closest_goal in goal_count:
+                goals = closest_goal[0]
+                groups = goals.user.group_set.filter(theme=instance.theme)[0]
+                if not groups.full:
+                    instance.user.group_set.add(groups)
+                    pass
+        else:
+            instance.user.group_set.create(theme=instance.theme)

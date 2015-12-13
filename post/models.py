@@ -10,6 +10,9 @@ class Goal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     theme = models.ForeignKey(Theme)
 
+    def __str__(self):
+        return "{}, {}: {}".format(self.user, self.id, self.inactive)
+
 
 class Post(models.Model):
     title = models.CharField(max_length=40)

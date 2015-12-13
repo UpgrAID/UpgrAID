@@ -9,7 +9,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'user', 'created_at')
+        fields = ('id', 'title', 'user', 'theme', 'created_at')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,7 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'first_name', 'goal_set')
+        fields = ('id', 'username', 'email', 'password', 'first_name',
+                  'goal_set', 'group_set', 'friend_set', 'to_friend_set')
 
     def create(self, validated_data):
 
@@ -55,11 +56,11 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    user_set = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Group
-        fields = ('id', 'theme', 'user_limit', 'user_set')
+        fields = ('id', 'theme', 'user_limit', 'user')
+
 
 
 class ThemeSerializer(serializers.ModelSerializer):

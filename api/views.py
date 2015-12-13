@@ -103,7 +103,7 @@ class DetailTheme(generics.RetrieveAPIView):
     serializer_class = ThemeSerializer
 
 
-class ListGroup(generics.ListAPIView):
+class ListGroup(generics.ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
@@ -111,6 +111,9 @@ class ListGroup(generics.ListAPIView):
 class DetailGroup(generics.RetrieveAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
 
 
 class ListRank(generics.ListAPIView):
