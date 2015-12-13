@@ -100,8 +100,8 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
-    friend_set = UserFriendSerializer(many=True, read_only=True)
-    to_friend_set = UserFriendSerializer(many=True, read_only=True)
+    from_friend = UserFriendSerializer(many=True, read_only=True)
+    to_friend = UserFriendSerializer(many=True, read_only=True)
 
     class Meta:
         model = Friendship
