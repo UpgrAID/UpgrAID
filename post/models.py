@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 from user.models import Theme
 
@@ -19,6 +19,7 @@ class Post(models.Model):
     description = models.TextField()
     user = models.ForeignKey(User)
     goal = models.ForeignKey(Goal)
+    group = models.ForeignKey(Group)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
