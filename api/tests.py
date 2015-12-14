@@ -20,4 +20,4 @@ class PostTests(APITestCase):
                                               description='test comment',
                                               user=1)
 
-    def test_post_list(self):
+    # def test_post_list(self):
