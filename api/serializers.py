@@ -101,7 +101,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ('last_active',)
 
 
-
 class ThemeSerializer(serializers.ModelSerializer):
     group_set = GroupSerializer(many=True, read_only=True)
 

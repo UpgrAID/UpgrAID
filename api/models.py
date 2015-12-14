@@ -28,10 +28,11 @@ def create_group(sender, instance=None, created=False, **kwargs):
             goal_count = Counter(same_goals)
             goal_count = goal_count.most_common()
             for closest_goal in goal_count:
-                goals = closest_goal[0]
-                groups = goals.user.group_set.filter(theme=instance.theme)[0]
-                if not groups.full:
-                    instance.user.group_set.add(groups)
-                    pass
+                if closest_goal.theme == instance.theme:
+                    goals = closest_goal[0]
+                    groups = goals.user.group_set.filter(theme=instance.theme)[0]
+                    if not groups.full:
+                        instance.user.group_set.add(groups)
+                        pass
         else:
             instance.user.group_set.create(theme=instance.theme)
