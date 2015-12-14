@@ -1,6 +1,6 @@
 from collections import Counter
 from django.conf import settings
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from post.models import Goal
 from rest_framework.authtoken.models import Token
@@ -13,8 +13,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
-@receiver(post_save, sender=Goal)
-def create_group(sender, instance=None, created=False, **kwargs):
+@receiver(pre_save, sender=Goal)
+def create_group(sender, instance=None, **kwargs):
     common_words = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have',
                     'I', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you',
                     'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they',
@@ -28,27 +28,28 @@ def create_group(sender, instance=None, created=False, **kwargs):
                     'also', 'back', 'after', 'use', 'two', 'how', 'our',
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
-    if created:
+    if instance:
         goal = instance.title
-        goal = goal.split()
-        same_goals = []
+        goal = [word for word in goal.split() if word not in common_words]
+        same_goal = []
         for word in goal:
-            for objects in Goal.objects.filter(title__icontains=word,
-                                               theme=instance.theme):
-                if word not in common_words:
-                    if word in objects.title:
-                        if objects.id != instance.id:
-                            same_goals.append(objects)
-        if len(same_goals) > 0:
-            goal_count = Counter(same_goals)
+            for object in Goal.objects.filter(title__icontains=word):
+                same_goal.append(object)
+        if len(same_goal) > 0:
+            goal_count = Counter(same_goal)
             goal_count = goal_count.most_common()
             for closest_goal in goal_count:
                 goals = closest_goal[0]
                 if goals.user != instance.user:
-                    if goals.theme == instance.theme:
-                        groups = goals.user.group_set.filter(theme=instance.theme)[0]
-                        if not groups.full:
-                            instance.user.group_set.add(groups)
-                            pass
+                    groups = goals.group
+                    if not groups.full:
+                        instance.group = groups
+                        instance.user.group_set.add(groups)
+                        break
+                    else:
+                        new_group = instance.user.group_set.create(theme=instance.theme)
+                        instance.group = new_group
+
         else:
-            instance.user.group_set.create(theme=instance.theme)
+            new_group = instance.user.group_set.create(theme=instance.theme)
+            instance.group = new_group

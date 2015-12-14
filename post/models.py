@@ -9,6 +9,7 @@ class Goal(models.Model):
     inactive = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     theme = models.ForeignKey(Theme)
+    group = models.ForeignKey(Group)
 
     def __str__(self):
         return "{}, {}: {}".format(self.user, self.id, self.inactive)
