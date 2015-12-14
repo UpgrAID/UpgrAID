@@ -29,7 +29,7 @@ def create_group(sender, instance=None, created=False, **kwargs):
             goal_count = goal_count.most_common()
             for closest_goal in goal_count:
                 goals = closest_goal[0]
-                if closest_goal.theme == instance.theme:
+                if goal.theme == instance.theme:
                     groups = goals.user.group_set.filter(theme=instance.theme)[0]
                     if not groups.full:
                         instance.user.group_set.add(groups)
