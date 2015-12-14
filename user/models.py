@@ -61,13 +61,13 @@ class Friendship(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    # exp = models.IntegerField()
-    # rank = models.ForeignKey(Rank)
+    exp = models.IntegerField(default=0)
+    rank = models.ForeignKey(Rank, default=1)
     last_active = models.DateField(null=True, blank=True)
 
     @property
     def friends_count(self):
-        count = self.friends.all().count()
+        count = len(self.friend_set.all())+len(self.to_friend_set.all())
         return count
 
     def activity(self):
