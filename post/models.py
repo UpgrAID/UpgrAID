@@ -19,7 +19,7 @@ class Post(models.Model):
     description = models.TextField()
     user = models.ForeignKey(User)
     goal = models.ForeignKey(Goal)
-    group = models.ManyToManyField(Group)
+    group = models.ForeignKey(Group)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
