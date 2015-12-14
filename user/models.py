@@ -62,7 +62,7 @@ class Friendship(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User)
     exp = models.IntegerField(default=0)
-    rank = models.ForeignKey(Rank, default=1)
+    rank = models.ForeignKey(Rank, null=True)
     last_active = models.DateField(null=True, blank=True)
 
     @property
