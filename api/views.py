@@ -38,6 +38,9 @@ class ListCreatePost(generics.ListCreateAPIView):
         user = self.request.query_params.get('user', None)
         if user:
             qs = qs.filter(user__id=user)
+        group = self.request.query_params.get('group', None)
+        if group:
+            qs = qs.filter(group__id=group)
         return qs
 
 
