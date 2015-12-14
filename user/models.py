@@ -39,13 +39,20 @@ class Achievement(models.Model):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=50)
     point = models.IntegerField(default=10)
+    user = models.ManyToManyField(User, through='Earned', related_name='achievement_set')
     badge_amount = models.IntegerField(default=3)
-    user = models.ForeignKey(User, blank=False, null=True)
     date_create = models.DateTimeField(auto_now_add=True)
+    required_amount = models.IntegerField()
 
     def __str__(self):
-        return 'Achievement {}: points: {}, badge amount: {} earned by: {}'\
-            .format(self.name, self.point, self.badge_amount, self.user)
+        return 'Achievement {} {}: points: {}, badge amount: {} earned by: {}'\
+            .format(self.name, self.required_amount, self.point,
+                    self.badge_amount, self.user)
+
+
+class Earned(models.Model):
+    user = models.ForeignKey(User)
+    achievement = models.ForeignKey(Achievement)
 
 
 class Friendship(models.Model):

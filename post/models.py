@@ -1,6 +1,6 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.db import models
-from user.models import Theme
+from user.models import Theme, Group
 
 
 class Goal(models.Model):

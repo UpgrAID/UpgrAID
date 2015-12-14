@@ -20,7 +20,7 @@ class RankAdmin(admin.ModelAdmin):
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description', 'point', 'badge_amount',
-                    'user', 'date_create')
+                    'date_create')
 
 
 @admin.register(Friendship)
