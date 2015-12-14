@@ -1,6 +1,6 @@
 from collections import Counter
 from django.conf import settings
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from post.models import Goal
 from rest_framework.authtoken.models import Token
@@ -13,7 +13,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 
-@receiver(pre_save, sender=Goal)
+@receiver(post_save, sender=Goal)
 def create_group(sender, instance=None, created=False, **kwargs):
     common_words = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have',
                     'I', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you',
