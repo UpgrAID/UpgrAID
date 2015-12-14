@@ -22,8 +22,9 @@ def create_group(sender, instance=None, created=False, **kwargs):
         for word in goal:
             for objects in Goal.objects.filter(title__icontains=word,
                                                theme=instance.theme):
-                if 'not' not in objects.title and objects.id != instance.id:
-                    same_goals.append(objects)
+                if word in objects.title:
+                    if 'not' not in objects.title and objects.id != instance.id:
+                        same_goals.append(objects)
         if len(same_goals) > 0:
             goal_count = Counter(same_goals)
             goal_count = goal_count.most_common()
