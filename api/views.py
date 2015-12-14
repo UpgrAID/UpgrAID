@@ -113,6 +113,13 @@ class ListGroup(generics.ListCreateAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        goal = self.request.query_params.get('goal', None)
+        if goal:
+            qs = qs.filter(goal__id=goal)
+        return qs
+
 
 class DetailGroup(generics.RetrieveAPIView):
     queryset = Group.objects.all()

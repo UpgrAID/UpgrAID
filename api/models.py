@@ -33,7 +33,8 @@ def create_group(sender, instance=None, **kwargs):
         goal = [word for word in goal.split() if word not in common_words]
         same_goal = []
         for word in goal:
-            for object in Goal.objects.filter(title__icontains=word):
+            for object in Goal.objects.filter(title__icontains=word,
+                                              theme=instance.theme):
                 same_goal.append(object)
         if len(same_goal) > 0:
             goal_count = Counter(same_goal)

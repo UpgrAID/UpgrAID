@@ -16,7 +16,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ('id', 'theme', 'user_limit', 'user')
+        fields = ('id', 'theme', 'user_limit', 'user', 'goal_set')
 
 
 class CommentSerializer(serializers.ModelSerializer):
