@@ -33,7 +33,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set')
+        fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set', 'group')
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
