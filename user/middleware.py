@@ -8,12 +8,8 @@ class ActivityMiddleware(object):
             today = datetime.date.today()
             profile = request.user.profile
             if profile.last_active is None:
-                try:
-                    profile.last_active = today
-                    profile.save()
-                except:
-                    pass
-
+                profile.last_active = today
+                profile.save()
             if profile.last_active is not None \
                     and profile.last_active < today:
                 profile.last_active = today

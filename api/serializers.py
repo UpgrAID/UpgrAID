@@ -19,7 +19,6 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'user', 'theme', 'created_at', 'group')
 
 
-
 class CommentSerializer(serializers.ModelSerializer):
     user = ShortUserSerializer(read_only=True)
 
