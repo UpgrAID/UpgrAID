@@ -118,6 +118,9 @@ class ListGroup(generics.ListCreateAPIView):
         goal = self.request.query_params.get('goal', None)
         if goal:
             qs = qs.filter(goal__id=goal)
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
         return qs
 
 

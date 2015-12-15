@@ -28,9 +28,8 @@ def create_group(sender, instance=None, **kwargs):
                     'also', 'back', 'after', 'use', 'two', 'how', 'our',
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
-    if instance:
-        goal = instance.title
-        goal = [word for word in goal.split() if word not in common_words]
+    if not instance.group:
+        goal = [word for word in instance.title.split() if word not in common_words]
         same_goal = []
         for word in goal:
             for object in Goal.objects.filter(title__icontains=word,
@@ -54,3 +53,6 @@ def create_group(sender, instance=None, **kwargs):
         else:
             new_group = instance.user.group_set.create(theme=instance.theme)
             instance.group = new_group
+
+
+# @receiver()
