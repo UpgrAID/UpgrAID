@@ -9,14 +9,14 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'user', 'theme', 'created_at')
+        fields = ('id', 'title', 'user', 'theme', 'created_at', 'group')
 
 
 class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Group
-        fields = ('id', 'theme', 'user_limit', 'user', 'goal_set')
+        fields = ('id', 'theme', 'user_limit', 'user', 'goal_set', 'post_set')
 
 
 class CommentSerializer(serializers.ModelSerializer):
