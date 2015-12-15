@@ -2,7 +2,8 @@ from api.views import ListCreateUsers, DetailUsers, DetailUpdatePost, \
     ListCreatePost, DetailUpdateGoal, ListCreateGoal, DetailUpdateComment, \
     ListCreateComment, DetailTheme, ListTheme, DetailGroup, ListGroup, \
     DetailRank, ListRank, DetailAchievement, ListAchievement, \
-    DetailProfile, ListProfile, ListCreateFriendship, DetailDestroyFriendship
+    DetailProfile, ListProfile, ListCreateFriendship, DetailDestroyFriendship, \
+    DetailEarned, ListEarned
 from django.conf.urls import url
 from rest_framework.authtoken import views
 
@@ -41,4 +42,7 @@ urlpatterns = [
         name='api_friendship_detail_destroy'),
     url(r'^friends/', ListCreateFriendship.as_view(),
         name='api_friendship_list_create'),
+    url(r'^earned/(?P<pk>\d+)', DetailEarned.as_view(),
+        name='api_earned_detail'),
+    url(r'^earned/', ListEarned.as_view(), name='api_earned_list'),
 ]

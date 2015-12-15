@@ -1,11 +1,13 @@
 from api.permissions import IsOwnerOrReadOnly
 from api.serializers import UserSerializer, PostSerializer, GoalSerializer, \
     CommentSerializer, ThemeSerializer, GroupSerializer, RankSerializer, \
-    AchievementSerializer, ProfileSerializer, FriendshipSerializer
+    AchievementSerializer, ProfileSerializer, FriendshipSerializer, \
+    EarnedSerializer
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import generics, permissions
-from user.models import Theme, Group, Rank, Achievement, Profile, Friendship
+from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
+    Earned
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -184,3 +186,20 @@ class ListCreateFriendship(generics.ListCreateAPIView):
 class DetailDestroyFriendship(generics.RetrieveDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
+
+
+class ListEarned(generics.ListAPIView):
+    queryset = Earned.objects.all()
+    serializer_class = EarnedSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
+
+class DetailEarned(generics.RetrieveAPIView):
+    queryset = Earned.objects.all()
+    serializer_class = EarnedSerializer
