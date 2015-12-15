@@ -4,8 +4,15 @@ from rest_framework import serializers
 from user.models import Theme, Achievement, Rank, Group, Profile, Friendship
 
 
+class ShortUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name')
+
+
 class GoalSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = ShortUserSerializer(read_only=True)
 
     class Meta:
         model = Goal
@@ -14,7 +21,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = ShortUserSerializer(read_only=True)
 
     class Meta:
         model = Comment
@@ -22,7 +29,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = ShortUserSerializer(read_only=True)
     comment_set = CommentSerializer(many=True, read_only=True)
 
     class Meta:
@@ -31,6 +38,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    user = ShortUserSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
 
     class Meta:
