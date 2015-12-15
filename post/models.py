@@ -10,6 +10,7 @@ class Goal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     theme = models.ForeignKey(Theme)
     group = models.ForeignKey(Group, blank=True)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return "{}, {}: {}".format(self.user, self.id, self.inactive)

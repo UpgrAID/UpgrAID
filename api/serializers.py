@@ -16,7 +16,8 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'user', 'theme', 'created_at', 'group')
+        fields = ('id', 'title', 'user', 'theme', 'created_at', 'group',
+                  'completed')
 
 
 class CommentSerializer(serializers.ModelSerializer):
