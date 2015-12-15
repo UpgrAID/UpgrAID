@@ -36,9 +36,14 @@ class Rank(models.Model):
 
 
 class Achievement(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=50)
-    point = models.IntegerField(default=10)
+    MODEL_FOR_ACHIEVEMENT = (
+        ('Goal', 'Goal'),
+        ('Post', 'Post'),
+        ('Earned', 'Earned')
+    )
+    name = models.CharField(max_length=50)
+    type = models.CharField(max_length=4, choices=MODEL_FOR_ACHIEVEMENT)
+    point = models.IntegerField(default=2)
     user = models.ManyToManyField(User, through='Earned', related_name='achievement_set')
     badge_amount = models.IntegerField(default=3)
     date_create = models.DateTimeField(auto_now_add=True)
