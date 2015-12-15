@@ -19,7 +19,6 @@ class Post(models.Model):
     title = models.CharField(max_length=40)
     description = models.TextField()
     user = models.ForeignKey(User)
-    goal = models.ForeignKey(Goal)
     group = models.ForeignKey(Group)
     created_at = models.DateTimeField(auto_now_add=True)
 
