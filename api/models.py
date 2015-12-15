@@ -28,7 +28,7 @@ def create_group(sender, instance=None, **kwargs):
                     'also', 'back', 'after', 'use', 'two', 'how', 'our',
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
-    if instance:
+    if method.post:
         goal = [word for word in instance.title.split() if word not in common_words]
         same_goal = []
         for word in goal:

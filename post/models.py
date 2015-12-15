@@ -12,6 +12,10 @@ class Goal(models.Model):
     group = models.ForeignKey(Group, blank=True)
     completed = models.BooleanField(default=False)
 
+    def remove_group(self):
+        if self.completed:
+            self.group.user_set.remove(self.user)
+
     def __str__(self):
         return "{}, {}: {}".format(self.user, self.id, self.inactive)
 
