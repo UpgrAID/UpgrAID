@@ -49,6 +49,7 @@ def create_group(sender, instance=None, **kwargs):
                     else:
                         new_group = instance.user.group_set.create(theme=instance.theme)
                         instance.group = new_group
+                        break
 
         else:
             new_group = instance.user.group_set.create(theme=instance.theme)

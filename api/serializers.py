@@ -13,6 +13,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    post_set = PostSerializer(many=True, read_only=True)
 
     class Meta:
         model = Group
