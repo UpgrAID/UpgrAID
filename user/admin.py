@@ -19,7 +19,7 @@ class RankAdmin(admin.ModelAdmin):
 
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'point', 'badge_amount',
+    list_display = ('id', 'name', 'type', 'point', 'badge_amount',
                     'date_create')
 
 
