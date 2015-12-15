@@ -2,7 +2,7 @@ from collections import Counter
 from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from post.models import Goal
+from post.models import Goal, Post
 from rest_framework.authtoken.models import Token
 from user.models import Group, Achievement, Earned
 
@@ -47,7 +47,8 @@ def create_group(sender, instance=None, **kwargs):
                         instance.user.group_set.add(groups)
                         break
                     else:
-                        new_group = instance.user.group_set.create(theme=instance.theme)
+                        new_group = instance.user.group_set.create(
+                            theme=instance.theme)
                         instance.group = new_group
                         break
         else:
@@ -61,6 +62,25 @@ def create_group(sender, instance=None, **kwargs):
             if len(achievements) > 0:
                 for achievement in achievements:
                     if achievement.required_amount == completed_count:
-                        Earned.objects.create(user=instance.user, achievement=achievement)
+                        Earned.objects.create(user=instance.user,
+                                              achievement=achievement)
 
-# @receiver()
+
+@receiver(post_save, sender=Post)
+def post_achievements(sender, instance=None, created=False, **kwargs):
+    if created:
+        achievements = Achievement.objects.filter(type='Post')
+        if len(achievements) > 0:
+            for achievement in achievements:
+                if len(instance.user.post_set.all()) == achievement.required_amount:
+                    Earned.objects.create(user=instance.user, achievement=achievement)
+
+
+@receiver(post_save, sender=Earned)
+def earned_achievements(sender, instance=None, created=False, **kwargs):
+    if created:
+        achievements = Achievement.objects.filter(type='Earned')
+        if len(achievements) > 0:
+            for achievement in achievements:
+                if len(instance.user.earned_set.all()) == achievement.required_amount:
+                    Earned.objects.create(user=instance.user, achievement=achievement)
