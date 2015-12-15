@@ -12,13 +12,6 @@ class GoalSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'user', 'theme', 'created_at', 'group')
 
 
-class GroupSerializer(serializers.ModelSerializer):
-    post_set = PostSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Group
-        fields = ('id', 'theme', 'user_limit', 'user', 'goal_set', 'post_set')
-
 
 class CommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
@@ -35,6 +28,14 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set', 'group')
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    post_set = PostSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Group
+        fields = ('id', 'theme', 'user_limit', 'user', 'goal_set', 'post_set')
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
