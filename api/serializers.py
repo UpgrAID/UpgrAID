@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from post.models import Post, Goal, Comment
 from rest_framework import serializers
-from user.models import Theme, Achievement, Rank, Group, Profile, Friendship
+from user.models import Theme, Achievement, Rank, Group, Profile, Friendship, \
+    Earned
 
 
 class ShortUserSerializer(serializers.ModelSerializer):
@@ -131,4 +132,13 @@ class AchievementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Achievement
-        fields = ('id', 'name', 'description', 'point', 'badge_amount', 'user')
+        fields = ('id', 'name', 'type', 'point', 'badge_amount', 'user')
+
+
+class EarnedSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    Achievement = AchievementSerializer()
+
+    class Meta:
+        model = Earned
+        fields = ('id', 'user', 'achievement')
