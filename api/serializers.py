@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'user', 'goal', 'comment_set', 'group')
+        fields = ('id', 'title', 'description', 'user', 'comment_set', 'group')
 
 
 class GroupSerializer(serializers.ModelSerializer):
