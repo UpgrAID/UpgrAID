@@ -137,7 +137,7 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 class EarnedSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    Achievement = AchievementSerializer()
+    achievement = AchievementSerializer()
 
     class Meta:
         model = Earned
