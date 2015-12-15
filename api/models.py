@@ -4,7 +4,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from post.models import Goal
 from rest_framework.authtoken.models import Token
-from user.models import Group
+from user.models import Group, Achievement, Earned
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -28,7 +28,7 @@ def create_group(sender, instance=None, **kwargs):
                     'also', 'back', 'after', 'use', 'two', 'how', 'our',
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
-    if method.post:
+    if not instance.id:
         goal = [word for word in instance.title.split() if word not in common_words]
         same_goal = []
         for word in goal:
@@ -50,10 +50,17 @@ def create_group(sender, instance=None, **kwargs):
                         new_group = instance.user.group_set.create(theme=instance.theme)
                         instance.group = new_group
                         break
-
         else:
             new_group = instance.user.group_set.create(theme=instance.theme)
             instance.group = new_group
-
+    else:
+        if instance.completed:
+            instance.remove_group()
+            completed_count = len(instance.user.goal_set.filter(completed=True))
+            achievements = Achievement.objects.filter(type='Goal')
+            if len(achievements) > 0:
+                for achievement in achievements:
+                    if achievement.required_amount == completed_count:
+                        Earned.objects.create(user=instance.user, achievement=achievement)
 
 # @receiver()
