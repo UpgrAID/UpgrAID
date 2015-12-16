@@ -4,7 +4,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from post.models import Goal, Post
 from rest_framework.authtoken.models import Token
-from user.models import Group, Achievement, Earned
+from user.models import Group, Achievement, Earned, Friendship
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -92,3 +92,9 @@ def rank(sender, instance=None, created=False, **kwargs):
         instance.user.profile.exp = instance.user.profile.exp + instance.achievement.point
         instance.user.profile.rank_check()
         instance.user.profile.save()
+
+
+@receiver(post_save, sender=Friendship)
+def friend_request(sender, instance=None, **kwargs):
+    if instance:
+        instance.denied_friend_request()

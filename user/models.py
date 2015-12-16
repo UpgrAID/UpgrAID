@@ -64,6 +64,11 @@ class Earned(models.Model):
 class Friendship(models.Model):
     from_friend = models.ForeignKey(User, related_name='friend_set')
     to_friend = models.ForeignKey(User, related_name='to_friend_set')
+    accepted = models.NullBooleanField()
+
+    def denied_friend_request(self):
+        if not self.accepted:
+            self.delete()
 
     def __str__(self):
         return '{} and {} are Friends'.format(self.from_friend, self.to_friend)

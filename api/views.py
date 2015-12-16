@@ -183,7 +183,7 @@ class ListCreateFriendship(generics.ListCreateAPIView):
         return qs
 
 
-class DetailDestroyFriendship(generics.RetrieveDestroyAPIView):
+class DetailUpdateDestroyFriendship(generics.RetrieveUpdateDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
 

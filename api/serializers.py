@@ -55,12 +55,10 @@ class UserFriendSerializer(serializers.ModelSerializer):
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
-    from_friend = UserFriendSerializer(read_only=True)
-    to_friend = UserFriendSerializer(read_only=True)
 
     class Meta:
         model = Friendship
-        fields = ('id', 'from_friend', 'to_friend')
+        fields = ('id', 'from_friend', 'to_friend', 'accepted')
 
 
 class FriendsAddedSerializer(serializers.ModelSerializer):
