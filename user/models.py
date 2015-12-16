@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Sum
 from django.db.models.signals import post_save
 
 
@@ -74,7 +75,7 @@ class Friendship(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User)
     exp = models.IntegerField(default=0)
-    rank = models.ForeignKey(Rank, null=True)
+    rank = models.ForeignKey(Rank, default=12)
     last_active = models.DateField(null=True, blank=True)
 
     @property
@@ -95,6 +96,11 @@ class Profile(models.Model):
             return 'All goals are inactive'
         else:
             return '{} has been inactive for {} days'.format(self.user, diff)
+
+    def rank_check(self):
+        if self.exp >= self.rank.exp_required:
+            new_rank = Rank.objects.get(pk=(1+self.rank.id))
+            self.rank = new_rank
 
     def __str__(self):
         return '{}: Last Active: {}'.format(self.user, self.last_active)

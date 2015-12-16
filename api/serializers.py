@@ -108,8 +108,8 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'last_active')
-        read_only_fields = ('last_active',)
+        fields = ('id', 'user', 'rank', 'exp', 'last_active')
+        read_only_fields = ('last_active', 'exp', 'rank')
 
 
 class ThemeSerializer(serializers.ModelSerializer):

@@ -16,7 +16,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 @receiver(pre_save, sender=Goal)
 def create_group(sender, instance=None, **kwargs):
     common_words = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have',
-                    'I', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you',
+                    'i', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you',
                     'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they',
                     'we', 'say', 'her', 'she', 'or', 'an', 'will', 'my', 'one',
                     'all', 'would', 'there', 'their', 'what', 'so', 'up',
@@ -29,7 +29,7 @@ def create_group(sender, instance=None, **kwargs):
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
     if not instance.id:
-        goal = [word for word in instance.title.split() if word not in common_words]
+        goal = [word for word in instance.title.split() if word.lower() not in common_words]
         same_goal = []
         for word in goal:
             for object in Goal.objects.filter(title__icontains=word,
@@ -82,5 +82,13 @@ def earned_achievements(sender, instance=None, created=False, **kwargs):
         achievements = Achievement.objects.filter(type='Earned')
         if len(achievements) > 0:
             for achievement in achievements:
-                if len(instance.user.earned_set.all()) == achievement.required_amount:
+                if len(instance.user.achievement_set.all()) == achievement.required_amount:
                     Earned.objects.create(user=instance.user, achievement=achievement)
+
+
+@receiver(post_save, sender=Earned)
+def rank(sender, instance=None, created=False, **kwargs):
+    if created:
+        instance.user.profile.exp = instance.user.profile.exp + instance.achievement.point
+        instance.user.profile.rank_check()
+        instance.user.profile.save()
