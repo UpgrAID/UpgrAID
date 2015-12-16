@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='rank',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='user.Rank'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='user.Rank'),
         ),
     ]
