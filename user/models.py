@@ -67,7 +67,7 @@ class Friendship(models.Model):
     accepted = models.NullBooleanField()
 
     def denied_friend_request(self):
-        if not self.accepted:
+        if not self.accepted and self.accepted is not None:
             self.delete()
 
     def __str__(self):
