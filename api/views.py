@@ -2,12 +2,13 @@ from api.permissions import IsOwnerOrReadOnly
 from api.serializers import UserSerializer, PostSerializer, GoalSerializer, \
     CommentSerializer, ThemeSerializer, GroupSerializer, RankSerializer, \
     AchievementSerializer, ProfileSerializer, FriendshipSerializer, \
-    EarnedSerializer
+    EarnedSerializer, GroupMessageSerializer, UserMessageSerializer
 from django.contrib.auth.models import User
-from post.models import Post, Goal, Comment
+from post.models import Post, Goal, Comment, UserMessage, GroupMessage
 from rest_framework import generics, permissions
 from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
     Earned
+
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -175,11 +176,12 @@ class ListCreateFriendship(generics.ListCreateAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
 
+
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(to_friend__username=username)
+            qs = qs.filter(from_friend__username=username)
         return qs
 
 
@@ -203,3 +205,51 @@ class ListEarned(generics.ListAPIView):
 class DetailEarned(generics.RetrieveAPIView):
     queryset = Earned.objects.all()
     serializer_class = EarnedSerializer
+
+
+class ListCreateUserMessage(generics.ListCreateAPIView):
+    queryset = UserMessage.objects.all()
+    serializer_class = UserMessageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
+
+class DetailUpdateDestroyUserMessage(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserMessage.objects.all()
+    serializer_class = UserMessageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
+
+
+class ListCreateGroupMessage(generics.ListCreateAPIView):
+    queryset = GroupMessage.objects.all()
+    serializer_class = GroupMessageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
+
+class DetailUpdateDestroyGroupMessage(generics.RetrieveUpdateDestroyAPIView):
+    queryset = GroupMessage.objects.all()
+    serializer_class = GroupMessageSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)

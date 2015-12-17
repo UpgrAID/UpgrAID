@@ -39,3 +39,17 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.description
+
+
+class GroupMessage(models.Model):
+    user = models.ForeignKey(User, related_name='sender')
+    group = models.ForeignKey(Group, related_name='group')
+    sent_at = models.TimeField(auto_now_add=True)
+    message = models.TextField()
+
+
+class UserMessage(models.Model):
+    sender = models.ForeignKey(User, related_name='group_sender')
+    receiver = models.ForeignKey(User, related_name='group_receiver')
+    sent_at = models.DateTimeField(auto_now_add=True)
+    message = models.TextField()

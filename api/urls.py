@@ -45,4 +45,11 @@ urlpatterns = [
     url(r'^earned/(?P<pk>\d+)', DetailEarned.as_view(),
         name='api_earned_detail'),
     url(r'^earned/', ListEarned.as_view(), name='api_earned_list'),
+    url(r'^messages/user/(?P<pk>\d+)', DetailUpdatePost.as_view(),
+        name='api_post_detail_update'),
+    url(r'^messages/user/', ListCreatePost.as_view(), name='api_post_list'),
+    url(r'^messages/group/(?P<pk>\d+)', DetailUpdatePost.as_view(),
+        name='api_post_detail_update'),
+    url(r'^messages/group/', ListCreatePost.as_view(), name='api_post_list'),
+
 ]

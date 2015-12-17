@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from post.models import Post, Goal, Comment
+from post.models import Post, Goal, Comment, UserMessage, GroupMessage
 from rest_framework import serializers
 from user.models import Theme, Achievement, Rank, Group, Profile, Friendship, \
     Earned
@@ -140,3 +140,21 @@ class EarnedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Earned
         fields = ('id', 'user', 'achievement')
+
+
+class UserMessageSerializer(serializers.ModelSerializer):
+    sender = UserSerializer(read_only=True)
+    receiver = UserSerializer(read_only=True)
+
+    class Meta:
+        model = UserMessage
+        fields = ('id', 'sender', 'receiver', 'message', 'sent_at')
+
+
+class GroupMessageSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    group = GroupSerializer
+
+    class Meta:
+        model = GroupMessage
+        fields = ('id', 'user', 'group', 'message', 'sent_at')
