@@ -22,3 +22,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIR = (
    os.path.join(BASE_DIR, 'static')
 )
+
+PUSHER_ID = '161638'
+PUSHER_KEY = 'ba2dd22aafcc637cf7e7'
+PUSHER_SECRET = os.environ['PUSHER_KEY']
