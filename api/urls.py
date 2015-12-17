@@ -2,8 +2,9 @@ from api.views import ListCreateUsers, DetailUsers, DetailUpdatePost, \
     ListCreatePost, DetailUpdateGoal, ListCreateGoal, DetailUpdateComment, \
     ListCreateComment, DetailTheme, ListTheme, DetailGroup, ListGroup, \
     DetailRank, ListRank, DetailAchievement, ListAchievement, \
-    DetailProfile, ListProfile, ListCreateFriendship, DetailUpdateDestroyFriendship, \
-    DetailEarned, ListEarned, DetailUpdateDestroyUserMessage, \
+    DetailProfile, ListProfile, ListCreateFriendship, \
+    DetailUpdateDestroyFriendship, DetailEarned, \
+    ListEarned, DetailUpdateDestroyUserMessage, \
     ListCreateUserMessage, DetailUpdateDestroyGroupMessage, \
     ListCreateGroupMessage
 from django.conf.urls import url
@@ -47,9 +48,11 @@ urlpatterns = [
     url(r'^earned/(?P<pk>\d+)', DetailEarned.as_view(),
         name='api_earned_detail'),
     url(r'^earned/', ListEarned.as_view(), name='api_earned_list'),
-    url(r'^messages/user/(?P<pk>\d+)', DetailUpdateDestroyUserMessage.as_view(),
+    url(r'^messages/user/(?P<pk>\d+)',
+        DetailUpdateDestroyUserMessage.as_view(),
         name='api_post_detail_update'),
-    url(r'^messages/user/', ListCreateUserMessage.as_view(), name='api_post_list'),
+    url(r'^messages/user/', ListCreateUserMessage.as_view(),
+        name='api_post_list'),
     url(r'^messages/group/(?P<pk>\d+)', DetailUpdateDestroyGroupMessage.as_view(),
         name='api_post_detail_update'),
     url(r'^messages/group/', ListCreateGroupMessage.as_view(), name='api_post_list'),
