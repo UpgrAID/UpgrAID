@@ -16,6 +16,8 @@ class Group(models.Model):
     theme = models.ForeignKey(Theme)
     user_limit = models.IntegerField(default=20)
     user = models.ManyToManyField(User)
+    channel = models.CharField(max_length=20, blank=True, null=True)
+    event = models.CharField(max_length=20, blank=True, null=True)
 
     @property
     def full(self):

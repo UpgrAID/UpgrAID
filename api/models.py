@@ -2,9 +2,11 @@ from collections import Counter
 from django.conf import settings
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from post.models import Goal, Post
+from post.models import Goal, Post, GroupMessage
 from rest_framework.authtoken.models import Token
+from upgraid.settings import PUSHER_ID, PUSHER_KEY, PUSHER_SECRET
 from user.models import Group, Achievement, Earned, Friendship
+from pusher import Pusher
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -98,3 +100,16 @@ def rank(sender, instance=None, created=False, **kwargs):
 def friend_request(sender, instance=None, **kwargs):
     if instance:
         instance.denied_friend_request()
+
+
+@receiver(pre_save, sender=GroupMessage)
+def pusher_info(sender, instance=None, **kwargs):
+    pusher = Pusher(app_id=PUSHER_ID, key=PUSHER_KEY, secret=PUSHER_SECRET,
+                    ssl=True)
+    if instance.group.channel:
+        pusher.trigger(instance.group.channel, instance.event, {'message': instance.message})
+    else:
+        instance.group.channel = instance.channel
+        instance.group.event = instance.event
+        instance.group.save()
+        pusher.trigger(instance.channel, instance.event, {'message': instance.message})
