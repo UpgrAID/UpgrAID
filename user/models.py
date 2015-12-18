@@ -27,7 +27,7 @@ class Group(models.Model):
             return False
         
     def __str__(self):
-        return '{} group'.format(self.theme)
+        return '{} group #{}'.format(self.theme, self.id)
 
 
 class Rank(models.Model):
