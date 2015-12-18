@@ -19,6 +19,29 @@ class ShortGroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'theme')
 
 
+class ShortGoalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Goal
+        fields = ('id', 'title', 'completed')
+
+
+class ShortCommentSerializer(serializers.ModelSerializer):
+    user = ShortUserSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'description', 'user')
+
+
+class ShortPostSerializer(serializers.ModelSerializer):
+    comment_set = ShortCommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'comment_set', 'group')
+
+
 class UserFriendSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -61,7 +84,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     user = ShortUserSerializer(read_only=True)
-    comment_set = CommentSerializer(many=True, read_only=True)
+    comment_set = ShortCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -87,8 +110,8 @@ class FriendshipSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    goal_set = GoalSerializer(many=True, read_only=True)
-    post_set = PostSerializer(many=True, read_only=True)
+    goal_set = ShortGoalSerializer(many=True, read_only=True)
+    post_set = ShortPostSerializer(many=True, read_only=True)
     group_set = ShortGroupSerializer(many=True, read_only=True)
     friend_set = FriendsAddedSerializer(many=True, read_only=True)
     to_friend_set = FriendsAddedMeSerializer(many=True, read_only=True)
