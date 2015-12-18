@@ -240,7 +240,7 @@ class ListCreateGroupMessage(generics.ListCreateAPIView):
         user = self.request.user
         channel = serializer.initial_data['channel']
         event = serializer.initial_data['event']
-        group = serializer.initial_data['group']
+        group = Group.objects.get(pk=serializer.initial_data['group'])
         if not group.channel:
             group.channel = channel
             group.event = event
