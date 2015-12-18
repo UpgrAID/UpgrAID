@@ -107,6 +107,6 @@ def pusher_info(sender, instance=None, **kwargs):
     pusher = Pusher(app_id=PUSHER_ID, key=PUSHER_KEY, secret=PUSHER_SECRET,
                     ssl=True)
     if instance.group.channel:
-        pusher.trigger(instance.group.channel, instance.event, {'message': instance.message})
+        pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
     else:
         pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
