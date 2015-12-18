@@ -102,11 +102,12 @@ def friend_request(sender, instance=None, **kwargs):
         instance.denied_friend_request()
 
 
-@receiver(pre_save, sender=GroupMessage)
-def pusher_info(sender, instance=None, **kwargs):
+@receiver(post_save, sender=GroupMessage)
+def pusher_info(sender, instance=None, created=False, **kwargs):
     pusher = Pusher(app_id=PUSHER_ID, key=PUSHER_KEY, secret=PUSHER_SECRET,
                     ssl=True)
-    if instance.group.channel:
-        pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
-    else:
-        pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
+    if created:
+        if instance.group.channel:
+            pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
+        else:
+            pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
