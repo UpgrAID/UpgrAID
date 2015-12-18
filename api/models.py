@@ -47,18 +47,30 @@ def create_group(sender, instance=None, **kwargs):
                     if not groups.full:
                         instance.group = groups
                         instance.user.group_set.add(groups)
+                        instance.user.save()
                         break
-                    else:
-                        new_group = instance.user.group_set.create(
-                            theme=instance.theme)
-                        instance.group = new_group
+                    # else:
+                    #     new_group = instance.user.group_set.create(
+                    #         theme=instance.theme)
+                    #     instance.user.save()
+                    #     instance.group = new_group
+                    #     break
+                if goals.user == instance.user and goals.completed:
+                    groups = goals.group
+                    if not groups.full:
+                        instance.group = groups
+                        instance.user.group_set.add(groups)
+                        instance.user.save()
+                        goals.delete()
                         break
+
         else:
             new_group = instance.user.group_set.create(theme=instance.theme)
+            instance.user.save()
             instance.group = new_group
     else:
         if instance.completed:
-            instance.remove_group()
+            instance.group.user.remove(instance.user)
             completed_count = len(instance.user.goal_set.filter(completed=True))
             achievements = Achievement.objects.filter(type='Goal')
             if len(achievements) > 0:

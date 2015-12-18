@@ -176,7 +176,6 @@ class ListCreateFriendship(generics.ListCreateAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
 
-
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
