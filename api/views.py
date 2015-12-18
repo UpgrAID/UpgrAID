@@ -68,6 +68,11 @@ class ListCreateGoal(generics.ListCreateAPIView):
         username = self.request.query_params.get('username', None)
         if username:
             qs = qs.filter(user__username=username)
+        completed = self.request.query_params.get('completed', None)
+        if completed == 'true':
+            qs = qs.filter(completed=completed)
+        elif completed == 'false':
+            qs = qs.filter(completed=False)
         return qs
 
 

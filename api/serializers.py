@@ -12,6 +12,29 @@ class ShortUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name')
 
 
+class UserFriendSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name')
+
+
+class FriendsAddedSerializer(serializers.ModelSerializer):
+    to_friend = UserFriendSerializer(read_only=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('id', 'to_friend')
+
+
+class FriendsAddedMeSerializer(serializers.ModelSerializer):
+    from_friend = UserFriendSerializer(read_only=True)
+
+    class Meta:
+        model = Friendship
+        fields = ('id', 'from_friend')
+
+
 class GoalSerializer(serializers.ModelSerializer):
     user = ShortUserSerializer(read_only=True)
 
@@ -47,41 +70,18 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = ('id', 'theme', 'user_limit', 'user', 'goal_set', 'post_set')
 
 
-class UserFriendSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'first_name')
-
-
 class FriendshipSerializer(serializers.ModelSerializer):
+    from_friend = serializers.ReadOnlyField(source='from_friend.username')
+    to_friend = serializers.ReadOnlyField(source='to_friend.username')
 
     class Meta:
         model = Friendship
         fields = ('id', 'from_friend', 'to_friend', 'accepted')
 
 
-class FriendsAddedSerializer(serializers.ModelSerializer):
-    to_friend = UserFriendSerializer(read_only=True)
-
-    class Meta:
-        model = Friendship
-        fields = ('id', 'to_friend')
-
-
-class FriendsAddedMeSerializer(serializers.ModelSerializer):
-    from_friend = UserFriendSerializer(read_only=True)
-
-    class Meta:
-        model = Friendship
-        fields = ('id', 'from_friend')
-
-
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
-    comment_set = CommentSerializer(many=True, read_only=True)
-    group_set = GroupSerializer(many=True, read_only=True)
     friend_set = FriendsAddedSerializer(many=True, read_only=True)
     to_friend_set = FriendsAddedMeSerializer(many=True, read_only=True)
 
@@ -90,7 +90,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password', 'first_name',
                   'goal_set', 'post_set', 'comment_set', 'group_set',
                   'friend_set', 'to_friend_set')
-        read_only_fields = ('friend_set', 'to_friend_set')
+        read_only_fields = ('friend_set', 'to_friend_set', 'comment_set',
+                            'group_set')
 
     def create(self, validated_data):
 
@@ -134,7 +135,7 @@ class AchievementSerializer(serializers.ModelSerializer):
 
 
 class EarnedSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = serializers.ReadOnlyField(source='user.username')
     achievement = AchievementSerializer()
 
     class Meta:
@@ -143,8 +144,8 @@ class EarnedSerializer(serializers.ModelSerializer):
 
 
 class UserMessageSerializer(serializers.ModelSerializer):
-    sender = UserSerializer(read_only=True)
-    receiver = UserSerializer(read_only=True)
+    sender = serializers.ReadOnlyField(source='sender.username')
+    receiver = serializers.ReadOnlyField(source='reciever.username')
 
     class Meta:
         model = UserMessage
