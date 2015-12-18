@@ -109,4 +109,4 @@ def pusher_info(sender, instance=None, **kwargs):
     if instance.group.channel:
         pusher.trigger(instance.group.channel, instance.event, {'message': instance.message})
     else:
-        pusher.trigger(instance.channel, instance.event, {'message': instance.message})
+        pusher.trigger(instance.group.channel, instance.group.event, {'message': instance.message})
