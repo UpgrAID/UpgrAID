@@ -160,7 +160,7 @@ class DetailAchievement(generics.RetrieveAPIView):
 
 
 class ListProfile(generics.ListAPIView):
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.select_related('user').all()
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
