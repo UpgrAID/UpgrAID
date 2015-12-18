@@ -101,8 +101,6 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
-    from_friend = ShortUserSerializer()
-    to_friend = ShortUserSerializer()
 
     class Meta:
         model = Friendship
