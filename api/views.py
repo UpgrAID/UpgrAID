@@ -249,9 +249,9 @@ class ListCreateGroupMessage(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        username = self.request.query_params.get('username', None)
-        if username:
-            qs = qs.filter(user__username=username)
+        group = self.request.query_params.get('group', None)
+        if group:
+            qs = qs.filter(group__id=group)
         return qs
 
 
