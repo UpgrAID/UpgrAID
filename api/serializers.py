@@ -12,6 +12,13 @@ class ShortUserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'first_name')
 
 
+class ShortGroupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Group
+        fields = ('id', 'theme')
+
+
 class UserFriendSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -82,6 +89,7 @@ class FriendshipSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     goal_set = GoalSerializer(many=True, read_only=True)
     post_set = PostSerializer(many=True, read_only=True)
+    group_set = ShortGroupSerializer(many=True, read_only=True)
     friend_set = FriendsAddedSerializer(many=True, read_only=True)
     to_friend_set = FriendsAddedMeSerializer(many=True, read_only=True)
 
@@ -90,8 +98,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email', 'password', 'first_name',
                   'goal_set', 'post_set', 'comment_set', 'group_set',
                   'friend_set', 'to_friend_set')
-        read_only_fields = ('friend_set', 'to_friend_set', 'comment_set',
-                            'group_set')
+        read_only_fields = ('friend_set', 'to_friend_set', 'comment_set')
 
     def create(self, validated_data):
 
