@@ -238,6 +238,13 @@ class ListCreateGroupMessage(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
+        channel = serializer.initial_data['channel']
+        event = serializer.initial_data['event']
+        group = serializer.initial_data['group']
+        if not group.channel:
+            group.channel = channel
+            group.event = event
+            group.save()
         serializer.save(user=user)
 
     def get_queryset(self):

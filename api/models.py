@@ -109,7 +109,4 @@ def pusher_info(sender, instance=None, **kwargs):
     if instance.group.channel:
         pusher.trigger(instance.group.channel, instance.event, {'message': instance.message})
     else:
-        instance.group.channel = instance.channel
-        instance.group.event = instance.event
-        instance.group.save()
         pusher.trigger(instance.channel, instance.event, {'message': instance.message})
