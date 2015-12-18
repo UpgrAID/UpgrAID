@@ -23,7 +23,7 @@ class ShortGoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'completed')
+        fields = ('id', 'title', 'theme', 'completed')
 
 
 class ShortCommentSerializer(serializers.ModelSerializer):
