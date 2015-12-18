@@ -101,8 +101,8 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class FriendshipSerializer(serializers.ModelSerializer):
-    from_friend = serializers.ReadOnlyField(source='from_friend.username')
-    to_friend = serializers.ReadOnlyField(source='to_friend.username')
+    from_friend = serializers.RelatedField(source='from_friend.username')
+    to_friend = serializers.RelatedField(source='to_friend.username')
 
     class Meta:
         model = Friendship

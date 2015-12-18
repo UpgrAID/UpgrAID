@@ -10,7 +10,6 @@ from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
     Earned
 
 
-
 class ListCreateUsers(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
