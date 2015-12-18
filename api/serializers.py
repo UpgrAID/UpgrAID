@@ -152,8 +152,7 @@ class UserMessageSerializer(serializers.ModelSerializer):
 
 
 class GroupMessageSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
-    group = GroupSerializer
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = GroupMessage
