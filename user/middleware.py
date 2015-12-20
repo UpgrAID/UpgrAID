@@ -10,7 +10,6 @@ class ActivityMiddleware(object):
             if profile.last_active is None:
                 profile.last_active = today
                 profile.save()
-            if profile.last_active is not None \
-                    and profile.last_active < today:
+            else:
                 profile.last_active = today
                 profile.save()
