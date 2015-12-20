@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '#o67b2e+)+zy&67#c9*$oy-d&ihn!rv^39@_-gqdb+m#r*m**d'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -143,4 +143,4 @@ REST_FRAMEWORK = {
 
 PUSHER_ID = '161638'
 PUSHER_KEY = 'aa48a322f5c5c64fe315'
-PUSHER_SECRET = 'f5f637d75f31e15880f1'
+PUSHER_SECRET = os.environ['PUSHER_KEY']

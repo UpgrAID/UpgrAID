@@ -54,7 +54,7 @@ class FriendsAddedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('id', 'to_friend')
+        fields = ('id', 'to_friend', 'accepted')
 
 
 class FriendsAddedMeSerializer(serializers.ModelSerializer):
@@ -62,7 +62,7 @@ class FriendsAddedMeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Friendship
-        fields = ('id', 'from_friend')
+        fields = ('id', 'from_friend', 'accepted')
 
 
 class GoalSerializer(serializers.ModelSerializer):
