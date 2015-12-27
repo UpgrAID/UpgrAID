@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = '!kfh3&7tyszz%!d39)qqg3-^pqlp3!_4*3+f516sahgty@rf4y'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'api',
     'post',
     'user',
 ]
@@ -143,4 +142,4 @@ REST_FRAMEWORK = {
 
 PUSHER_ID = '161638'
 PUSHER_KEY = 'aa48a322f5c5c64fe315'
-PUSHER_SECRET = os.environ['PUSHER_KEY']
+PUSHER_SECRET = 'f5f637d75f31e15880f1'

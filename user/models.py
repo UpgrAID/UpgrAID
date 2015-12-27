@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Theme(models.Model):
@@ -63,6 +64,24 @@ class Earned(models.Model):
     achievement = models.ForeignKey(Achievement)
 
 
+@receiver(post_save, sender=Earned)
+def rank(sender, instance=None, created=False, **kwargs):
+    if created:
+        instance.user.profile.exp = instance.user.profile.exp + instance.achievement.point
+        instance.user.profile.rank_check()
+        instance.user.profile.save()
+
+
+@receiver(post_save, sender=Earned)
+def earned_achievements(sender, instance=None, created=False, **kwargs):
+    if created:
+        achievements = Achievement.objects.filter(type='Earned')
+        if len(achievements) > 0:
+            for achievement in achievements:
+                if len(instance.user.achievement_set.all()) == achievement.required_amount:
+                    Earned.objects.create(user=instance.user, achievement=achievement)
+
+
 class Friendship(models.Model):
     from_friend = models.ForeignKey(User, related_name='friend_set')
     to_friend = models.ForeignKey(User, related_name='to_friend_set')
@@ -79,10 +98,16 @@ class Friendship(models.Model):
         unique_together = (('to_friend', 'from_friend'), )
 
 
+@receiver(post_save, sender=Friendship)
+def friend_request(sender, instance=None, **kwargs):
+    if instance:
+        instance.denied_friend_request()
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User)
     exp = models.IntegerField(default=0)
-    rank = models.ForeignKey(Rank)
+    rank = models.ForeignKey(Rank, default=Rank.objects.get(title='Novice 5').id)
     last_active = models.DateField(null=True, blank=True)
 
     @property

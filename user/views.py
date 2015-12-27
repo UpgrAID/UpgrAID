@@ -1,3 +1,127 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from rest_framework import generics
+from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
+    Earned
+from user.serializers import UserSerializer, ThemeSerializer, GroupSerializer, \
+    RankSerializer, AchievementSerializer, ProfileSerializer, \
+    FriendshipSerializer, EarnedSerializer
 
-# Create your views here.
+
+class ListCreateUsers(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class DetailUsers(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class ListTheme(generics.ListAPIView):
+    queryset = Theme.objects.all()
+    serializer_class = ThemeSerializer
+
+
+class DetailTheme(generics.RetrieveAPIView):
+    queryset = Theme.objects.all()
+    serializer_class = ThemeSerializer
+
+
+class ListGroup(generics.ListCreateAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        goal = self.request.query_params.get('goal', None)
+        if goal:
+            qs = qs.filter(goal__id=goal)
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
+
+class DetailGroup(generics.RetrieveAPIView):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+    def perform_create(self, serializer):
+        serializer.save()
+
+
+class ListRank(generics.ListAPIView):
+    queryset = Rank.objects.all()
+    serializer_class = RankSerializer
+
+
+class DetailRank(generics.RetrieveAPIView):
+    queryset = Rank.objects.all()
+    serializer_class = RankSerializer
+
+
+class ListAchievement(generics.ListAPIView):
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
+
+
+class DetailAchievement(generics.RetrieveAPIView):
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
+
+
+class ListProfile(generics.ListAPIView):
+    queryset = Profile.objects.select_related('user').all()
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        user = self.request.query_params.get('user', None)
+        if user:
+            qs = qs.filter(user=user)
+        return qs
+
+
+class DetailProfile(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class ListCreateFriendship(generics.ListCreateAPIView):
+    queryset = Friendship.objects.all()
+    serializer_class = FriendshipSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(from_friend__username=username)
+        return qs
+
+
+class DetailUpdateDestroyFriendship(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Friendship.objects.all()
+    serializer_class = FriendshipSerializer
+
+
+class ListEarned(generics.ListAPIView):
+    queryset = Earned.objects.all()
+    serializer_class = EarnedSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(user__username=username)
+        return qs
+
+
+class DetailEarned(generics.RetrieveAPIView):
+    queryset = Earned.objects.all()
+    serializer_class = EarnedSerializer

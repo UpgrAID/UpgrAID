@@ -24,5 +24,5 @@ STATICFILES_DIR = (
 )
 
 PUSHER_ID = '161638'
-PUSHER_KEY = 'ba2dd22aafcc637cf7e7'
-PUSHER_SECRET = os.environ['PUSHER_KEY']
+PUSHER_KEY = os.environ['PUSHER_KEY']
+PUSHER_SECRET = os.environ['PUSHER_SECRET']
