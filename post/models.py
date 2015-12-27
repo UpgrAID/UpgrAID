@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from pusher import Pusher
+from rest_framework.authtoken.models import Token
 from upgraid.settings import PUSHER_ID, PUSHER_KEY, PUSHER_SECRET
 from user.models import Theme, Group
 from django.conf import settings
