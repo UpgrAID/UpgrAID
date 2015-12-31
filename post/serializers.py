@@ -50,7 +50,6 @@ class PostSerializer(serializers.ModelSerializer):
 
 class UserMessageSerializer(serializers.ModelSerializer):
     sender = serializers.ReadOnlyField(source='sender.username')
-    receiver = serializers.ReadOnlyField(source='reciever.username')
 
     class Meta:
         model = UserMessage

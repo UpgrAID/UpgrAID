@@ -97,7 +97,7 @@ class ListCreateUserMessage(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
-        serializer.save(user=user)
+        serializer.save(sender=user)
 
     def get_queryset(self):
         qs = super().get_queryset()

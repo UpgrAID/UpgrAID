@@ -145,8 +145,8 @@ def pusher_info(sender, instance=None, created=False, **kwargs):
 
 
 class UserMessage(models.Model):
-    sender = models.ForeignKey(User, related_name='group_sender')
-    receiver = models.ForeignKey(User, related_name='group_receiver')
+    sender = models.ForeignKey(User, related_name='user_sender')
+    receiver = models.ForeignKey(User, related_name='receiver')
     sent_at = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
 
