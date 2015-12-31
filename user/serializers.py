@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from post.models import Goal, Comment, Post
+from post.serializers import ShortGoalSerializer, ShortPostSerializer
 from rest_framework import serializers
 from user.models import Theme, Earned, Achievement, Rank, Profile, Friendship, \
     Group
@@ -33,29 +33,6 @@ class ShortUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name')
-
-
-class ShortGoalSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Goal
-        fields = ('id', 'title', 'theme', 'completed')
-
-
-class ShortCommentSerializer(serializers.ModelSerializer):
-    user = ShortUserSerializer(read_only=True)
-
-    class Meta:
-        model = Comment
-        fields = ('id', 'description', 'user')
-
-
-class ShortPostSerializer(serializers.ModelSerializer):
-    comment_set = ShortCommentSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ('id', 'title', 'description', 'comment_set', 'group')
 
 
 class ShortGroupSerializer(serializers.ModelSerializer):

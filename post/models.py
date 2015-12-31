@@ -155,3 +155,8 @@ class UserMessage(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+class CommentLike(models.Model):
+    comment = models.ForeignKey(Comment)
+    user = models.ForeignKey(User)

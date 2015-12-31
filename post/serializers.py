@@ -1,32 +1,51 @@
-from post.models import Goal, Comment, Post, UserMessage, GroupMessage
+from post.models import Goal, Comment, Post, UserMessage, GroupMessage, \
+    CommentLike
 from rest_framework import serializers
-from user.serializers import ShortUserSerializer, ShortCommentSerializer
 
 
-class GoalSerializer(serializers.ModelSerializer):
-    user = ShortUserSerializer(read_only=True)
+class ShortGoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ('id', 'title', 'user', 'theme', 'created_at', 'group',
-                  'completed')
+        fields = ('id', 'title', 'theme', 'completed')
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    user = ShortUserSerializer(read_only=True)
+class ShortCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'post', 'description', 'user')
+        fields = ('id', 'description')
 
 
-class PostSerializer(serializers.ModelSerializer):
-    user = ShortUserSerializer(read_only=True)
+class ShortPostSerializer(serializers.ModelSerializer):
     comment_set = ShortCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'user', 'comment_set', 'group')
+        fields = ('id', 'title', 'description', 'comment_set', 'group')
+
+
+class GoalSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Goal
+        fields = ('id', 'title', 'theme', 'created_at', 'group',
+                  'completed')
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'post', 'description')
+
+
+class PostSerializer(serializers.ModelSerializer):
+    comment_set = ShortCommentSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('id', 'title', 'description', 'comment_set', 'group')
 
 
 class UserMessageSerializer(serializers.ModelSerializer):
@@ -44,3 +63,11 @@ class GroupMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = GroupMessage
         fields = ('id', 'user', 'group', 'message', 'sent_at')
+
+
+class CommentLikeSerializer(serializers.ModelSerializer):
+    comment = ShortCommentSerializer()
+
+    class Meta:
+        model = CommentLike
+        fields = ('id', 'comment')

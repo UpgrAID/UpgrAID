@@ -1,8 +1,10 @@
-from post.models import Post, Goal, Comment, UserMessage, GroupMessage
+from post.models import Post, Goal, Comment, UserMessage, GroupMessage, \
+    CommentLike
 from post.permissions import IsOwnerOrReadOnly
 from post.serializers import PostSerializer, GoalSerializer, CommentSerializer, \
-    UserMessageSerializer, GroupMessageSerializer
+    UserMessageSerializer, GroupMessageSerializer, CommentLikeSerializer
 from rest_framework import generics, permissions
+from user.models import Group
 
 
 class ListCreatePost(generics.ListCreateAPIView):
@@ -141,3 +143,8 @@ class DetailUpdateDestroyGroupMessage(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = GroupMessageSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly)
+
+
+class ListCreateCommentLike(generics.ListCreateAPIView):
+    queryset = CommentLike.objects.all()
+    serializer_class = CommentLikeSerializer
