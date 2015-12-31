@@ -66,7 +66,6 @@ class GroupMessageSerializer(serializers.ModelSerializer):
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):
-    comment = ShortCommentSerializer()
 
     class Meta:
         model = CommentLike
