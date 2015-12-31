@@ -148,3 +148,7 @@ class DetailUpdateDestroyGroupMessage(generics.RetrieveUpdateDestroyAPIView):
 class ListCreateCommentLike(generics.ListCreateAPIView):
     queryset = CommentLike.objects.all()
     serializer_class = CommentLikeSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
