@@ -120,4 +120,4 @@ class BadgeGiftSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BadgeGift
-        fields = ('id', 'sender', 'reciever', 'amount')
+        fields = ('id', 'sender', 'receiver', 'amount')
