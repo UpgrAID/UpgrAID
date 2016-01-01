@@ -141,3 +141,8 @@ class ListCreateBadgeGift(generics.ListCreateAPIView):
         if username:
             qs = qs.filter(sender__username=username)
         return qs
+
+
+class DetailBadgeGift(generics.RetrieveAPIView):
+    queryset = BadgeGift.objects.all()
+    serializer_class = BadgeGiftSerializer

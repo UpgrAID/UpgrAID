@@ -2,7 +2,8 @@ from django.conf.urls import url
 from user.views import DetailUsers, ListCreateUsers, DetailTheme, ListTheme, \
     DetailGroup, ListGroup, DetailRank, ListRank, DetailAchievement, \
     ListAchievement, DetailProfile, ListProfile, DetailUpdateDestroyFriendship, \
-    ListCreateFriendship, DetailEarned, ListEarned
+    ListCreateFriendship, DetailEarned, ListEarned, DetailBadgeGift, \
+    ListCreateBadgeGift
 
 urlpatterns = [
     url(r'^users/(?P<pk>\d+)', DetailUsers.as_view(),
@@ -31,5 +32,8 @@ urlpatterns = [
     url(r'^earned/(?P<pk>\d+)', DetailEarned.as_view(),
         name='api_earned_detail'),
     url(r'^earned/', ListEarned.as_view(), name='api_earned_list'),
+    url(r'^gifts/(?P<pk>\d+)', DetailBadgeGift.as_view(),
+        name='api_gift_detail'),
+    url(r'^gifts/', ListCreateBadgeGift.as_view(), name='api_gift_list'),
 ]
 
