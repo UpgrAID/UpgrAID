@@ -69,6 +69,7 @@ def rank(sender, instance=None, created=False, **kwargs):
     if created:
         instance.user.profile.exp = instance.user.profile.exp + instance.achievement.point
         instance.user.profile.rank_check()
+        instance.user.profile.badges = instance.user.profile.badges + instance.achievement.badge_amount
         instance.user.profile.save()
 
 
@@ -109,6 +110,7 @@ class Profile(models.Model):
     exp = models.IntegerField(default=0)
     rank = models.ForeignKey(Rank, default=Rank.objects.get(title='Novice 5').id)
     last_active = models.DateField(null=True, blank=True)
+    badges = models.IntegerField(default=0)
 
     @property
     def friends_count(self):
@@ -143,3 +145,18 @@ def create_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class BadgeGift(models.Model):
+    sender = models.ForeignKey(User, related_name='badge_sender')
+    receiver = models.ForeignKey(User, related_name='badge_reciever')
+    amount = models.IntegerField()
+
+
+@receiver(post_save, sender=BadgeGift)
+def badge_gift(sender, instance=None, created=False, **kwargs):
+    if created:
+        instance.sender.profile.badges = instance.sender.profile.badges - instance.amount
+        instance.sender.profile.save()
+        instance.receiver.profile.badges = instance.receiver.profile.badges + instance.amount
+        instance.receiver.profile.save()

@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
-from post.serializers import ShortGoalSerializer, ShortPostSerializer
+from post.serializers import ShortGoalSerializer, ShortPostSerializer, \
+    ShortUserSerializer
 from rest_framework import serializers
 from user.models import Theme, Earned, Achievement, Rank, Profile, Friendship, \
-    Group
+    Group, BadgeGift
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
@@ -26,13 +27,6 @@ class FriendsAddedMeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Friendship
         fields = ('id', 'from_friend', 'accepted')
-
-
-class ShortUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'first_name')
 
 
 class ShortGroupSerializer(serializers.ModelSerializer):
@@ -119,3 +113,11 @@ class EarnedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Earned
         fields = ('id', 'user', 'achievement')
+
+
+class BadgeGiftSerializer(serializers.ModelSerializer):
+    sender = ShortUserSerializer(read_only=True)
+
+    class Meta:
+        model = BadgeGift
+        fields = ('id', 'sender', 'reciever', 'amount')

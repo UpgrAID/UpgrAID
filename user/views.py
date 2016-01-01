@@ -1,10 +1,10 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
-    Earned
+    Earned, BadgeGift
 from user.serializers import UserSerializer, ThemeSerializer, GroupSerializer, \
     RankSerializer, AchievementSerializer, ProfileSerializer, \
-    FriendshipSerializer, EarnedSerializer
+    FriendshipSerializer, EarnedSerializer, BadgeGiftSerializer
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -125,3 +125,19 @@ class ListEarned(generics.ListAPIView):
 class DetailEarned(generics.RetrieveAPIView):
     queryset = Earned.objects.all()
     serializer_class = EarnedSerializer
+
+
+class ListCreateBadgeGift(generics.ListCreateAPIView):
+    queryset = BadgeGift.objects.all()
+    serializer_class = BadgeGiftSerializer
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(sender=user)
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        username = self.request.query_params.get('username', None)
+        if username:
+            qs = qs.filter(sender__username=username)
+        return qs
