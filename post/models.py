@@ -91,7 +91,7 @@ def create_group(sender, instance=None, **kwargs):
             if achievements > 0:
                 for achievement in achievements:
                     if achievement.required_amount >= completed_count\
-                            and achievement not in instance.user.achievement_set:
+                            and achievement not in instance.user.achievement_set.all():
                         Earned.objects.create(user=instance.user,
                                               achievement=achievement)
 
@@ -114,7 +114,7 @@ def post_achievements(sender, instance=None, created=False, **kwargs):
         if len(achievements) > 0:
             for achievement in achievements:
                 if instance.user.post_set.count() >= achievement.required_amount \
-                        and achievement not in instance.user.achievement_set:
+                        and achievement not in instance.user.achievement_set.all():
                     Earned.objects.create(user=instance.user, achievement=achievement)
 
 
