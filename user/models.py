@@ -68,7 +68,7 @@ class Earned(models.Model):
 def rank(sender, instance=None, created=False, **kwargs):
     if created:
         instance.user.profile.exp = instance.user.profile.exp + instance.achievement.point
-        instance.user.profile.rank_check()
+        instance.user.profile.rank_up()
         instance.user.profile.badges = instance.user.profile.badges + instance.achievement.badge_amount
         instance.user.profile.save()
 
@@ -79,7 +79,8 @@ def earned_achievements(sender, instance=None, created=False, **kwargs):
         achievements = Achievement.objects.filter(type='Earned')
         if len(achievements) > 0:
             for achievement in achievements:
-                if len(instance.user.achievement_set.all()) == achievement.required_amount:
+                if instance.user.achievement_set.count() >= achievement.required_amount\
+                        and achievement not in instance.user.achievement_set:
                     Earned.objects.create(user=instance.user, achievement=achievement)
 
 
@@ -131,7 +132,7 @@ class Profile(models.Model):
         else:
             return '{} has been inactive for {} days'.format(self.user, diff)
 
-    def rank_check(self):
+    def rank_up(self):
         if self.exp >= self.rank.exp_required:
             new_rank = Rank.objects.get(pk=(1+self.rank.id))
             self.rank = new_rank
@@ -149,14 +150,20 @@ post_save.connect(create_user_profile, sender=User)
 
 class BadgeGift(models.Model):
     sender = models.ForeignKey(User, related_name='badge_sender')
-    receiver = models.ForeignKey(User, related_name='badge_reciever')
+    receiver = models.ForeignKey(User, related_name='badge_receiver')
     amount = models.IntegerField()
+
+    def gift_sent(self):
+        self.sender.profile.badges -= self.amount
+        self.sender.profile.save()
+
+    def gift_received(self):
+        self.receiver.profile.badges += self.amount
+        self.receiver.profile.save()
 
 
 @receiver(post_save, sender=BadgeGift)
 def badge_gift(sender, instance=None, created=False, **kwargs):
     if created:
-        instance.sender.profile.badges = instance.sender.profile.badges - instance.amount
-        instance.sender.profile.save()
-        instance.receiver.profile.badges = instance.receiver.profile.badges + instance.amount
-        instance.receiver.profile.save()
+        instance.gift_sent()
+        instance.gift_received()

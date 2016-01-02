@@ -1,3 +1,4 @@
+from django.db.models import Q
 from post.models import Post, Goal, Comment, UserMessage, GroupMessage, \
     CommentLike
 from post.permissions import IsOwnerOrReadOnly
@@ -103,7 +104,7 @@ class ListCreateUserMessage(generics.ListCreateAPIView):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(user__username=username)
+            qs = qs.filter(Q(sender__username=username) | Q(reciever__username=username))
         return qs
 
 

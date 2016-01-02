@@ -87,10 +87,11 @@ def create_group(sender, instance=None, **kwargs):
         if instance.completed:
             instance.group.user.remove(instance.user)
             completed_count = len(instance.user.goal_set.filter(completed=True))
-            achievements = Achievement.objects.filter(type='Goal')
-            if len(achievements) > 0:
+            achievements = Achievement.objects.filter(type='Goal').count()
+            if achievements > 0:
                 for achievement in achievements:
-                    if achievement.required_amount == completed_count:
+                    if achievement.required_amount >= completed_count\
+                            and achievement not in instance.user.achievement_set:
                         Earned.objects.create(user=instance.user,
                                               achievement=achievement)
 
@@ -112,7 +113,8 @@ def post_achievements(sender, instance=None, created=False, **kwargs):
         achievements = Achievement.objects.filter(type='Post')
         if len(achievements) > 0:
             for achievement in achievements:
-                if len(instance.user.post_set.all()) == achievement.required_amount:
+                if instance.user.post_set.count() >= achievement.required_amount \
+                        and achievement not in instance.user.achievement_set:
                     Earned.objects.create(user=instance.user, achievement=achievement)
 
 

@@ -7,9 +7,5 @@ class ActivityMiddleware(object):
         if request.user.is_authenticated():
             today = datetime.date.today()
             profile = request.user.profile
-            if profile.last_active is None:
-                profile.last_active = today
-                profile.save()
-            else:
-                profile.last_active = today
-                profile.save()
+            profile.last_active = today
+            profile.save()
