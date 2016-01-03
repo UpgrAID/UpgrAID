@@ -162,3 +162,6 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 class CommentLike(models.Model):
     comment = models.ForeignKey(Comment)
     user = models.ForeignKey(User)
+
+    class Meta:
+        unique_together = ('comment', 'user')
