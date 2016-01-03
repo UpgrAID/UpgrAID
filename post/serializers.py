@@ -37,7 +37,6 @@ class GoalSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
 
-
     class Meta:
         model = Comment
         fields = ('id', 'post', 'description', 'user', 'commentlike_set')
