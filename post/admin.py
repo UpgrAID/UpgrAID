@@ -1,5 +1,5 @@
 from django.contrib import admin
-from post.models import Goal, Post, Comment
+from post.models import Goal, Post, Comment, CommentLike
 
 
 @admin.register(Goal)
@@ -15,3 +15,8 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'post', 'description', 'user', 'created_at')
+
+
+@admin.register(CommentLike)
+class CommentLikeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'comment', 'user')
