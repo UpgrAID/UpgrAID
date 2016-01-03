@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
-from post.serializers import ShortGoalSerializer, ShortPostSerializer, \
-    ShortUserSerializer
+from post.serializers import ShortGoalSerializer, ShortPostSerializer
 from rest_framework import serializers
 from user.models import Theme, Earned, Achievement, Rank, Profile, Friendship, \
     Group, BadgeGift

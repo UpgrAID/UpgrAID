@@ -36,7 +36,6 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    user = ShortUserSerializer(read_only=True)
 
     class Meta:
         model = Comment
