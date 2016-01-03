@@ -86,9 +86,9 @@ def create_group(sender, instance=None, **kwargs):
     else:
         if instance.completed:
             instance.group.user.remove(instance.user)
-            completed_count = len(instance.user.goal_set.filter(completed=True))
-            achievements = Achievement.objects.filter(type='Goal').count()
-            if achievements > 0:
+            completed_count = instance.user.goal_set.filter(completed=True).count()
+            achievements = Achievement.objects.filter(type='Goal')
+            if achievements.count() > 0:
                 for achievement in achievements:
                     if achievement.required_amount >= completed_count\
                             and achievement not in instance.user.achievement_set.all():
