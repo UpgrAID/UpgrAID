@@ -104,7 +104,7 @@ class ListCreateUserMessage(generics.ListCreateAPIView):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(Q(sender__username=username) | Q(reciever__username=username))
+            qs = qs.filter(Q(sender__username=username) | Q(receiver__username=username))
         return qs
 
 
