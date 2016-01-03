@@ -16,7 +16,7 @@ class ShortCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('id', 'description', 'user')
+        fields = ('id', 'description', 'user', 'commentlike_set')
 
 
 class ShortPostSerializer(serializers.ModelSerializer):
@@ -36,6 +36,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+
 
     class Meta:
         model = Comment
@@ -67,6 +68,7 @@ class GroupMessageSerializer(serializers.ModelSerializer):
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = CommentLike
