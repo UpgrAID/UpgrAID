@@ -4,13 +4,6 @@ from post.models import Goal, Comment, Post, UserMessage, GroupMessage, \
 from rest_framework import serializers
 
 
-class ShortUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'first_name')
-
-
 class ShortGoalSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -19,10 +12,11 @@ class ShortGoalSerializer(serializers.ModelSerializer):
 
 
 class ShortCommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Comment
-        fields = ('id', 'description')
+        fields = ('id', 'description', 'user')
 
 
 class ShortPostSerializer(serializers.ModelSerializer):

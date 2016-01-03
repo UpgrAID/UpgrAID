@@ -6,6 +6,13 @@ from user.models import Theme, Earned, Achievement, Rank, Profile, Friendship, \
     Group, BadgeGift
 
 
+class ShortUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name')
+
+
 class UserFriendSerializer(serializers.ModelSerializer):
 
     class Meta:
