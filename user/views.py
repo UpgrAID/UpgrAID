@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
-from rest_framework import generics
+from django.db.models import Q
+from post.permissions import IsOwnerOrReadOnly
+from rest_framework import generics, permissions
 from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
     Earned, BadgeGift
 from user.serializers import UserSerializer, ThemeSerializer, GroupSerializer, \
@@ -30,7 +32,7 @@ class DetailTheme(generics.RetrieveAPIView):
     serializer_class = ThemeSerializer
 
 
-class ListGroup(generics.ListCreateAPIView):
+class ListGroup(generics.ListAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
@@ -96,18 +98,22 @@ class DetailProfile(generics.RetrieveAPIView):
 class ListCreateFriendship(generics.ListCreateAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
         if username:
-            qs = qs.filter(from_friend__username=username)
+            qs = qs.filter(Q(from_friend__username=username) |
+                           Q(to_friend__username=username))
         return qs
 
 
 class DetailUpdateDestroyFriendship(generics.RetrieveUpdateDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly)
 
 
 class ListEarned(generics.ListAPIView):
@@ -130,6 +136,7 @@ class DetailEarned(generics.RetrieveAPIView):
 class ListCreateBadgeGift(generics.ListCreateAPIView):
     queryset = BadgeGift.objects.all()
     serializer_class = BadgeGiftSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         user = self.request.user

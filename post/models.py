@@ -29,21 +29,8 @@ class Goal(models.Model):
 
 @receiver(pre_save, sender=Goal)
 def create_group(sender, instance=None, **kwargs):
-    common_words = ['the', 'be', 'to', 'of', 'and', 'a', 'in', 'that', 'have',
-                    'i', 'it', 'for', 'not', 'on', 'with', 'he', 'as', 'you',
-                    'do', 'at', 'this', 'but', 'his', 'by', 'from', 'they',
-                    'we', 'say', 'her', 'she', 'or', 'an', 'will', 'my', 'one',
-                    'all', 'would', 'there', 'their', 'what', 'so', 'up',
-                    'out', 'if', 'about', 'who', 'get', 'which', 'go', 'me',
-                    'when', 'make', 'can', 'like', 'time', 'no', 'just', 'him',
-                    'know', 'take', 'person', 'into', 'year', 'your', 'good',
-                    'some', 'could', 'them', 'see', 'other', 'than', 'then',
-                    'now', 'look', 'only', 'come', 'its', 'over', 'think',
-                    'also', 'back', 'after', 'use', 'two', 'how', 'our',
-                    'work', 'first', 'well', 'way', 'even', 'new', 'want',
-                    'because', 'any', 'these', 'give', 'day', 'most', 'us']
     if not instance.id:
-        goal = [word for word in instance.title.split() if word.lower() not in common_words]
+        goal = [word for word in instance.title.split() if word.lower() not in open('common_words.txt').read()]
         same_goal = []
         for word in goal:
             for object in Goal.objects.filter(title__icontains=word,
