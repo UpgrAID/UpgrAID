@@ -112,6 +112,7 @@ class Profile(models.Model):
     rank = models.ForeignKey(Rank, default=Rank.objects.get(title='Novice 5').id)
     last_active = models.DateField(null=True, blank=True)
     badges = models.IntegerField(default=0)
+    avatar = models.IntegerField(default=1)
 
     @property
     def friends_count(self):

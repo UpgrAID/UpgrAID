@@ -9,7 +9,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name')
+        fields = ('id', 'username', 'avatar')
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
@@ -93,7 +93,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('id', 'user', 'rank', 'exp', 'last_active')
+        fields = ('id', 'user', 'rank', 'exp', 'last_active', 'avatar')
         read_only_fields = ('last_active', 'exp', 'rank')
 
 
