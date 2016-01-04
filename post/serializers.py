@@ -13,7 +13,6 @@ class ShortGoalSerializer(serializers.ModelSerializer):
 
 class ShortCommentSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    commentlike_set = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment
@@ -37,7 +36,6 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    commentlike_set = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment
