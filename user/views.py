@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.db.models import Q
-from post.permissions import IsOwnerOrReadOnly
 from rest_framework import generics, permissions
 from user.models import Theme, Group, Rank, Achievement, Profile, Friendship, \
     Earned, BadgeGift
+from user.permissions import IsFromFriendOrReadOnly, IsToFriendOrReadOnly
 from user.serializers import UserSerializer, ThemeSerializer, GroupSerializer, \
     RankSerializer, AchievementSerializer, ProfileSerializer, \
     FriendshipSerializer, EarnedSerializer, BadgeGiftSerializer
@@ -113,7 +113,7 @@ class DetailUpdateDestroyFriendship(generics.RetrieveUpdateDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly)
+                          IsFromFriendOrReadOnly, IsToFriendOrReadOnly)
 
 
 class ListEarned(generics.ListAPIView):
