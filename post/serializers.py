@@ -37,7 +37,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    commentlike_set = serializers.ReadOnlyField(many=True)
+    commentlike_set = serializers.ReadOnlyField()
 
     class Meta:
         model = Comment
