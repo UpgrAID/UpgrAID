@@ -43,10 +43,7 @@ def create_group(sender, instance=None, **kwargs):
                     'work', 'first', 'well', 'way', 'even', 'new', 'want',
                     'because', 'any', 'these', 'give', 'day', 'most', 'us']
     if not instance.id:
-        goal = [word
-                for word in instance.title.split()
-                if word.lower() not in common_words
-                ]
+        goal = [word for word in instance.title.split() if word.lower() not in common_words]
         same_goal = []
         for word in goal:
             for object in Goal.objects.filter(title__icontains=word,
@@ -64,12 +61,6 @@ def create_group(sender, instance=None, **kwargs):
                         instance.user.group_set.add(groups)
                         instance.user.save()
                         break
-                    # else:
-                    #     new_group = instance.user.group_set.create(
-                    #         theme=instance.theme)
-                    #     instance.user.save()
-                    #     instance.group = new_group
-                    #     break
                 if goals.user == instance.user and goals.completed:
                     groups = goals.group
                     if not groups.full:
