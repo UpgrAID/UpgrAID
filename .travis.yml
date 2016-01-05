@@ -22,8 +22,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE upgraid;" -U postgres
-  - python manage.py makemigrations
-  - python manage.py makemigrations
+  - python manage.py syncdb
 
 script:
  - coverage run --source='.' manage.py test post user
