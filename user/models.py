@@ -2,7 +2,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 
@@ -109,7 +109,7 @@ def friend_request(sender, instance=None, **kwargs):
 class Profile(models.Model):
     user = models.OneToOneField(User)
     exp = models.IntegerField(default=0)
-    rank = models.ForeignKey(Rank, default=Rank.objects.get(title='Novice 5').id)
+    rank = models.ForeignKey(Rank, blank=True)
     last_active = models.DateField(null=True, blank=True)
     badges = models.IntegerField(default=0)
     avatar = models.IntegerField(default=1)
@@ -142,11 +142,16 @@ class Profile(models.Model):
         return '{}: Last Active: {}'.format(self.user, self.last_active)
 
 
+@receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
-post_save.connect(create_user_profile, sender=User)
+
+@receiver(pre_save, sender=Profile)
+def default_rank(sender, instance=None, created=False, **kwargs):
+    if created:
+        instance.rank = Rank.objects.get(title='Novice 5')
 
 
 class BadgeGift(models.Model):
