@@ -149,8 +149,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(pre_save, sender=Profile)
-def default_rank(sender, instance=None, created=False, **kwargs):
-    if created:
+def default_rank(sender, instance=None, **kwargs):
+    if instance:
         instance.rank = Rank.objects.get(title='Novice 5')
 
 
