@@ -44,10 +44,12 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     comment_set = ShortCommentSerializer(many=True, read_only=True)
+    user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
         model = Post
-        fields = ('id', 'title', 'description', 'comment_set', 'group')
+        fields = ('id', 'title', 'description', 'comment_set', 'group', 'user',
+                  'created_at')
 
 
 class UserMessageSerializer(serializers.ModelSerializer):
