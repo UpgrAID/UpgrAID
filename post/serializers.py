@@ -45,6 +45,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     comment_set = ShortCommentSerializer(many=True, read_only=True)
     user = serializers.ReadOnlyField(source='user.username')
+    created_at = serializers.ReadOnlyField()
 
     class Meta:
         model = Post
