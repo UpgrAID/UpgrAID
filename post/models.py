@@ -24,7 +24,7 @@ class Goal(models.Model):
         Goes through every goal and returns a list of goals that are
         close to this goal
         """
-        goal = [word for word in self.title.split() if word.lower() not in open('common_words.txt').read()]
+        goal = [word for word in self.title.split() if word.lower() not in open('common_words').read()]
         same_goal = []
         for word in goal:
             for object in Goal.objects.filter(title__icontains=word,
