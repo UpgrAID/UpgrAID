@@ -142,10 +142,10 @@ class Profile(models.Model):
         return '{}: Last Active: {}'.format(self.user, self.last_active)
 
 
-# @receiver(post_save, sender=User)
-# def create_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
 
 @receiver(pre_save, sender=Profile)
