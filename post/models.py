@@ -19,9 +19,39 @@ class Goal(models.Model):
     group = models.ForeignKey(Group, blank=True)
     completed = models.BooleanField(default=False)
 
-    def remove_group(self):
-        if self.completed:
-            self.group.user.remove(self.user)
+    def similar_goal_list(self):
+        """
+        Goes through every goal and returns a list of goals that are
+        close to this goal
+        """
+        goal = [word for word in self.title.split() if word.lower() not in open('common_words.txt').read()]
+        same_goal = []
+        for word in goal:
+            for object in Goal.objects.filter(title__icontains=word,
+                                              theme=self.theme):
+                same_goal.append(object)
+        return same_goal
+
+    def closest_goal(self, same_goals):
+        """
+        With a given list of similar goals, gives each goal a number based on how
+        similar they are and returns a list of tuples containing the goal and
+        their respective numbers in order based off that number
+        """
+        goal_count = Counter(same_goals)
+        goal_count = goal_count.most_common()
+        return goal_count
+
+    def assign_existing_group(self, group):
+        if not group.full:
+            self.group = group
+            self.user.group_set.add(group)
+            self.user.save()
+
+    def assign_new_group(self):
+        new_group = self.user.group_set.create(theme=self.theme)
+        self.user.save()
+        self.group = new_group
 
     def __str__(self):
         return "{}, {}: {}".format(self.user, self.id, self.inactive)
@@ -30,48 +60,37 @@ class Goal(models.Model):
 @receiver(pre_save, sender=Goal)
 def create_group(sender, instance=None, **kwargs):
     if not instance.id:
-        goal = [word for word in instance.title.split() if word.lower() not in open('common_words.txt').read()]
-        same_goal = []
-        for word in goal:
-            for object in Goal.objects.filter(title__icontains=word,
-                                              theme=instance.theme):
-                same_goal.append(object)
+        same_goal = instance.similar_goal_list()
         if len(same_goal) > 0:
-            goal_count = Counter(same_goal)
-            goal_count = goal_count.most_common()
-            for closest_goal in goal_count:
+            closest_goals = instance.closest_goal(same_goal)
+            for closest_goal in closest_goals:
                 goals = closest_goal[0]
+                group = goals.group
                 if goals.user != instance.user:
-                    groups = goals.group
-                    if not groups.full:
-                        instance.group = groups
-                        instance.user.group_set.add(groups)
-                        instance.user.save()
-                        break
+                    instance.assign_existing_group(group)
                 if goals.user == instance.user and goals.completed:
-                    groups = goals.group
-                    if not groups.full:
-                        instance.group = groups
-                        instance.user.group_set.add(groups)
-                        instance.user.save()
-                        goals.delete()
-                        break
-
+                    instance.assign_existing_group(group)
+                    goals.delete()
         else:
-            new_group = instance.user.group_set.create(theme=instance.theme)
-            instance.user.save()
-            instance.group = new_group
-    else:
-        if instance.completed:
-            instance.group.user.remove(instance.user)
-            completed_count = instance.user.goal_set.filter(completed=True).count()
-            achievements = Achievement.objects.filter(type='Goal')
-            if achievements.count() > 0:
-                for achievement in achievements:
-                    if achievement.required_amount >= completed_count\
-                            and achievement not in instance.user.achievement_set.all():
-                        Earned.objects.create(user=instance.user,
-                                              achievement=achievement)
+            instance.assign_new_group()
+
+
+@receiver(post_save, sender=Goal)
+def goal_achievements(sender, instance=None, **kwargs):
+    """
+    Checks to see if goal is completed. Then chekcs how many goals the user
+    has completed and compares that to achievements for completed goals
+    """
+    if instance.completed:
+        instance.group.user.remove(instance.user)
+        completed_count = instance.user.goal_set.filter(completed=True).count()
+        achievements = Achievement.objects.filter(type='Goal')
+        if achievements.count() > 0:
+            for achievement in achievements:
+                if achievement.required_amount >= completed_count\
+                        and achievement not in instance.user.achievement_set.all():
+                    Earned.objects.create(user=instance.user,
+                                          achievement=achievement)
 
 
 class Post(models.Model):
