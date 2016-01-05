@@ -4,7 +4,7 @@ from post.views import DetailUpdatePost, ListCreatePost, DetailUpdateGoal, \
     ListCreateGoal, DetailUpdateComment, ListCreateComment, \
     DetailUpdateDestroyUserMessage, ListCreateUserMessage, \
     DetailUpdateDestroyGroupMessage, ListCreateGroupMessage, \
-    ListCreateCommentLike
+    ListCreateCommentLike, DetailUpdateDestroyCommentLike
 
 urlpatterns = [
     url(r'^posts/(?P<pk>\d+)', DetailUpdatePost.as_view(),
@@ -26,6 +26,8 @@ urlpatterns = [
     url(r'^messages/group/', ListCreateGroupMessage.as_view(),
         name='api_group_message_list'),
     url(r'^api-token-auth/', views.obtain_auth_token, name='token_auth'),
+    url(r'^likes/comments/(?P<pk>\d+)', DetailUpdateDestroyCommentLike.as_view(),
+        name='api_comment_likes_detail'),
     url(r'^likes/comments/', ListCreateCommentLike.as_view(),
         name='api_comment_likes_list'),
 ]

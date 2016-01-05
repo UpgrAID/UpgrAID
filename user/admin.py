@@ -1,5 +1,6 @@
 from django.contrib import admin
-from user.models import Theme, Group, Rank, Achievement, Friendship, Profile
+from user.models import Theme, Group, Rank, Achievement, Friendship, Profile, \
+    Earned, BadgeGift
 
 
 @admin.register(Theme)
@@ -23,6 +24,11 @@ class AchievementAdmin(admin.ModelAdmin):
                     'date_create')
 
 
+@admin.register(Earned)
+class EarnedAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'achievement')
+
+
 @admin.register(Friendship)
 class FriendshipAdmin(admin.ModelAdmin):
     list_display = ('id', 'to_friend', 'from_friend')
@@ -31,3 +37,8 @@ class FriendshipAdmin(admin.ModelAdmin):
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'last_active')
+
+
+@admin.register(BadgeGift)
+class BadgeGiftAdmin(admin.ModelAdmin):
+    list_display = ('id', 'sender', 'receiver')
