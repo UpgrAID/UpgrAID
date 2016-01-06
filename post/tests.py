@@ -60,7 +60,7 @@ class PostTests(APITestCase):
                                                       required_amount=1)
         url = reverse('api_post_list')
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(url, {"title": "test post 2",
+        response = self.client.post(url, {"title": "test post 2",
                                          "description": "test description 2",
                                          "group": self.goal.group.pk},
                                    format='json')
