@@ -33,6 +33,7 @@ class GoalSerializer(serializers.ModelSerializer):
         model = Goal
         fields = ('id', 'title', 'theme', 'created_at', 'group',
                   'completed')
+        read_only_fields = ('group')
 
 
 class CommentSerializer(serializers.ModelSerializer):
