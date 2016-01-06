@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from post.models import Goal, Post, Comment
+from post.models import Goal, Post, Comment, GroupMessage, UserMessage, \
+    CommentLike
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
@@ -92,10 +93,43 @@ class PostTests(APITestCase):
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_user_message_list(self):
-    #     url = reverse('api_user_message_list_create')
-    #     response = self.client.get(url, {}, format='json')
-    #
-    # def test_comment_like_list(self):
-    #     url = reverse('api_comment_like_list_create')
-    #     response = self.client.get(url, {}, format='json')
+    def test_group_message_create(self):
+        url = reverse('api_group_message_list')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(url, {"group": self.goal.group.pk,
+                                          "message": "test group message"},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(GroupMessage.objects.count(), 1)
+        g_message = GroupMessage.objects.all()[0]
+        self.assertEqual(g_message.user, self.user)
+
+    def test_user_message_list(self):
+        url = reverse('api_user_message_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_user_message_create(self):
+        url = reverse('api_group_message_list')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(url, {"receiver": self.user2,
+                                          "message": "test user message"},
+                                    format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(UserMessage.objects.count(), 1)
+        u_message = UserMessage.objects.all()[0]
+        self.assertEqual(u_message.user, self.user)
+
+    def test_comment_like_list(self):
+        url = reverse('api_comment_like_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_comment_like_create(self):
+        url = reverse('api_comment_like_list')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(url, {"comment": self.comment.pk}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(CommentLike.objects.count(), 1)
+        comment_like = CommentLike.objects.all()[0]
+        self.assertEqual(comment_like.user, self.user)
