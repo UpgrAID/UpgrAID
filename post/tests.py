@@ -36,7 +36,7 @@ class PostTests(APITestCase):
         response2 = self.client.post(url, {"title": "I want to dance",
                                            "theme": 1}, format='json')
         self.client.force_authenticate(user=self.user,
-                                       token=Token.object.get(user=self.user))
+                                       token=Token.objects.get(user=self.user))
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
         self.assertEqual(self.user.id, response.data['user'])
