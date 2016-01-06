@@ -22,13 +22,13 @@ class PostTests(APITestCase):
                                               description='test comment',
                                               user=self.user)
     def test_goal_list(self):
-        url = reverse('api_goal_list_create')
+        url = reverse('api_goal_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
 
     def test_goal_create(self):
-        url = reverse('api_goal_list_create')
+        url = reverse('api_goal_list')
         response = self.client.post(url, {"title": "test goal", "theme": 1},
                                    format='json')
         response2 = self.client.post(url, {"title": "I want to dance",
