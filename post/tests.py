@@ -50,13 +50,13 @@ class PostTests(APITestCase):
         self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
 
     def test_post_list(self):
-        url = reverse('api_post_list_create')
+        url = reverse('api_post_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_post_create(self):
         post_achievement = Achievement.objects.create(name='test achievement', type='Post', required_amount=1)
-        url = reverse('api_goal_list')
+        url = reverse('api_post_list')
         self.client.force_authenticate(user=self.user)
         response = self.client.get(url, {"title": "test post 2",
                                          "description": "test description 2",
@@ -67,6 +67,7 @@ class PostTests(APITestCase):
         post = Post.objects.get(title='test post 2',
                                 description='test description 2')
         self.assertEqual(post.user.achievement_set.count(), 1)
+        self.assertEqual(post.user.achievement_set[0].achievement, post_achievement)
 
     # def test_comment_list(self):
     #     url = reverse('api_comment_list_create')
