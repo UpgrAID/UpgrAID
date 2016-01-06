@@ -69,7 +69,7 @@ class PostTests(APITestCase):
         post = Post.objects.get(title='test post 2',
                                 description='test description 2')
         self.assertEqual(post.user.achievement_set.count(), 1)
-        self.assertEqual(post.user.achievement_set.all()[0].achievement, post_achievement)
+        self.assertEqual(post.user.achievement_set.all()[0], post_achievement)
 
     # def test_comment_list(self):
     #     url = reverse('api_comment_list_create')
