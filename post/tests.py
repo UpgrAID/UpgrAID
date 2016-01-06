@@ -79,8 +79,13 @@ class PostTests(APITestCase):
     def test_comment_create(self):
         url = reverse('api_comment_list')
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(url, {"post": self.post.pk, "description": "test comment 2"}, format='json')
-
+        response = self.client.get(url, {"post": self.post.pk,
+                                         "description": "test comment 2"},
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Comment.objects.count(), 2)
+        comment = Comment.objects.get(description="test comment 2", post=self.post)
+        self.assertEqual(comment.user, self.user)
 
     # def test_group_message_list(self):
     #     url = reverse('api_group_message_list_create')
