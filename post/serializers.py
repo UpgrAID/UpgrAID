@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from post.models import Goal, Comment, Post, UserMessage, GroupMessage, \
     CommentLike
 from rest_framework import serializers
+from user.serializers import ShortUserSerializer
 
 
 class ShortGoalSerializer(serializers.ModelSerializer):
@@ -36,11 +37,11 @@ class GoalSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    commentlike_set = serializers.ReadOnlyField(source='commentlike.user')
 
     class Meta:
         model = Comment
         fields = ('id', 'post', 'description', 'user', 'commentlike_set')
+        read_only_fields = ('user', 'commentlike_set')
 
 
 class PostSerializer(serializers.ModelSerializer):
