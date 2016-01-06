@@ -4,7 +4,7 @@ from django.test import TestCase
 from post.models import Goal, Post, Comment
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from rest_framework.test import APITestCase
+from rest_framework.test import APITestCase, APIClient
 from user.models import Theme, Rank
 
 
@@ -28,15 +28,14 @@ class PostTests(APITestCase):
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
     def test_goal_create(self):
         url = reverse('api_goal_list')
         response = self.client.post(url, {"title": "test goal", "theme": 1},
                                    format='json')
         response2 = self.client.post(url, {"title": "I want to dance",
                                            "theme": 1}, format='json')
-        self.client.force_authenticate(user=self.user,
-                                       token=Token.objects.get(user=self.user).key)
+        token = Token.objects.get(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
         self.assertEqual(self.user.id, response.data['user'])
