@@ -4,7 +4,7 @@ from django.test import TestCase
 from post.models import Goal, Post, Comment
 from rest_framework import status
 from rest_framework.test import APITestCase
-from user.models import Theme
+from user.models import Theme, Rank
 
 
 class PostTests(APITestCase):
@@ -20,6 +20,7 @@ class PostTests(APITestCase):
         self.comment = Comment.objects.create(post=1,
                                               description='test comment',
                                               user=1)
+        self.rank = Rank.objects.create(title='Novice 5', exp_required=15)
 
     def test_goal_list(self):
         url = reverse('api_goal_list_create')
