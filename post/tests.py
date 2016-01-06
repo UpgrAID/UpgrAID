@@ -94,7 +94,7 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_user_message_create(self):
-        url = reverse('api_group_message_list')
+        url = reverse('api_user_message_list')
         self.client.force_authenticate(user=self.user)
         response = self.client.post(url, {"receiver": self.user2.pk,
                                           "message": "test user message"},
