@@ -10,7 +10,7 @@ from user.models import Theme
 class PostTests(APITestCase):
 
     def setUp(self):
-        self.user = User.object.create_user('test', email='test@test.com',
+        self.user = User.objects.create_user('test', email='test@test.com',
                                             password='testpassword')
         self.theme = Theme.objects.create(title='Test Theme')
         self.goal = Goal.objects.create(title='test goal', user=1, theme=1)
