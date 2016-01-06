@@ -17,7 +17,7 @@ class PostTests(APITestCase):
         self.goal = Goal.objects.create(title='test goal', user=self.user, theme=self.theme)
         self.post = Post.objects.create(title='test post',
                                         description='test description',
-                                        user=self.user, goal=self.goal)
+                                        user=self.user, group=self.goal.group)
         self.comment = Comment.objects.create(post=self.post,
                                               description='test comment',
                                               user=self.user)
