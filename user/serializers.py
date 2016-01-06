@@ -5,11 +5,19 @@ from user.models import Theme, Earned, Achievement, Rank, Profile, Friendship, \
     Group, BadgeGift
 
 
+class AvatarSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('avatar',)
+
+
 class ShortUserSerializer(serializers.ModelSerializer):
+    profile = ShortProfileSerializer(read_only=True)
 
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', 'username', 'profile')
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
