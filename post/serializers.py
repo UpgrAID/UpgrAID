@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from post.models import Goal, Comment, Post, UserMessage, GroupMessage, \
     CommentLike
 from rest_framework import serializers
-from user.serializers import ShortUserSerializer
 
 
 class ShortGoalSerializer(serializers.ModelSerializer):
