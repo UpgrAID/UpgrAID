@@ -68,9 +68,11 @@ def create_group(sender, instance=None, **kwargs):
                 group = goals.group
                 if goals.user != instance.user:
                     instance.assign_existing_group(group)
+                    pass
                 if goals.user == instance.user and goals.completed:
                     instance.assign_existing_group(group)
                     goals.delete()
+                    pass
         else:
             instance.assign_new_group()
 

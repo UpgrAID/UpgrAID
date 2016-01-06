@@ -46,7 +46,8 @@ class PostTests(APITestCase):
         self.assertNotEqual(goal.group, goal2.group)
         self.assertEqual(goal.group,self.goal.group)
         self.assertEqual(len(goal.similar_goal_list()), 5)
-        self.assertEqual((goal.closest_goal(goal.similar_goal_list())), self.goal)
+        self.assertEqual((len(goal.closest_goal(goal.similar_goal_list()))), 2)
+        self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
 
 
     # def test_post_list(self):
