@@ -102,7 +102,7 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(UserMessage.objects.count(), 1)
         u_message = UserMessage.objects.all()[0]
-        self.assertEqual(u_message.user, self.user)
+        self.assertEqual(u_message.sender, self.user)
 
     def test_comment_like_list(self):
         url = reverse('api_comment_likes_list')
