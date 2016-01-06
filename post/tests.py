@@ -79,7 +79,7 @@ class PostTests(APITestCase):
     def test_comment_create(self):
         url = reverse('api_comment_list')
         self.client.force_authenticate(user=self.user)
-        response = self.client.get(url, {"post": self.post.pk,
+        response = self.client.post(url, {"post": self.post.pk,
                                          "description": "test comment 2"},
                                    format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
