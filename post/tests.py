@@ -71,10 +71,17 @@ class PostTests(APITestCase):
         self.assertEqual(post.user.achievement_set.count(), 1)
         self.assertEqual(post.user.achievement_set.all()[0], post_achievement)
 
-    # def test_comment_list(self):
-    #     url = reverse('api_comment_list_create')
-    #     response = self.client.get(url, {}, format='json')
-    #
+    def test_comment_list(self):
+        url = reverse('api_comment_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_comment_create(self):
+        url = reverse('api_comment_list')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(url, {"post": self.post.pk, "description": "test comment 2"}, format='json')
+
+
     # def test_group_message_list(self):
     #     url = reverse('api_group_message_list_create')
     #     response = self.client.get(url, {}, format='json')
