@@ -40,7 +40,7 @@ class PostTests(APITestCase):
                                            "theme": 1}, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
-        self.assertEqual(self.user2.id, response.data['user'])
+        self.assertEqual(self.user2.id, response.data[0]['user'])
         self.assertNotEqual(response.data['group'], response2.data['group'])
         self.assertEqual(response.data['group'], self.goal.group)
         goal = Goal.objects.get(pk=response.data['id'])
