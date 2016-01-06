@@ -33,17 +33,18 @@ class PostTests(APITestCase):
     def test_goal_create(self):
         url = reverse('api_goal_list')
         self.client.force_authenticate(user=self.user2)
-        response = self.client.post(url, {"title": "test goal", "theme": 1},
+        response = self.client.post(url, {"title": "test goal 2", "theme": 1},
                                    format='json')
         self.client.force_authenticate(user=self.user)
         response2 = self.client.post(url, {"title": "I want to dance",
                                            "theme": 1}, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
-        self.assertEqual(self.user2.id, response.data[0]['user'])
-        self.assertNotEqual(response.data['group'], response2.data['group'])
-        self.assertEqual(response.data['group'], self.goal.group)
-        goal = Goal.objects.get(pk=response.data['id'])
+        goal = Goal.objects.get(title=response.data['title'])
+        goal2 = Goal.objects.get(title=response2.data['title'])
+        self.assertEqual(goal.user, self.user2)
+        self.assertNotEqual(goal.group, goal2.group)
+        self.assertEqual(goal.group,self.goal.group)
         self.assertEqual(len(goal.similar_goal_list()), 2)
         self.assertEqual((goal.closest_goal(goal.similar_goal_list())), self.goal)
 
