@@ -13,7 +13,7 @@ class AvatarSerializer(serializers.ModelSerializer):
 
 
 class ShortUserSerializer(serializers.ModelSerializer):
-    profile = ShortProfileSerializer(read_only=True)
+    profile = AvatarSerializer(read_only=True)
 
     class Meta:
         model = User
