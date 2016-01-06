@@ -90,7 +90,7 @@ class ListProfile(generics.ListAPIView):
         return qs
 
 
-class DetailProfile(generics.RetrieveAPIView):
+class DetailUpdateProfile(generics.RetrieveAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 

@@ -49,10 +49,14 @@ class PostTests(APITestCase):
         self.assertEqual((len(goal.closest_goal(goal.similar_goal_list()))), 2)
         self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
 
+    def test_post_list(self):
+        url = reverse('api_post_list_create')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_post_list(self):
-    #     url = reverse('api_post_list_create')
-    #     response = self.client.get(url, {}, format='json')
+    # def test_post_create(self):
+    #     url = reverse('api_goal_list')
+
     #
     # def test_comment_list(self):
     #     url = reverse('api_comment_list_create')
