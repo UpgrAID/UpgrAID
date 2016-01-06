@@ -5,7 +5,7 @@ from post.models import Goal, Post, Comment
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
-from user.models import Theme, Rank
+from user.models import Theme, Rank, Achievement
 
 
 class PostTests(APITestCase):
@@ -54,10 +54,20 @@ class PostTests(APITestCase):
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_post_create(self):
-    #     url = reverse('api_goal_list')
+    def test_post_create(self):
+        post_achievement = Achievement.objects.create(name='test achievement', type='Post', required_amount=1)
+        url = reverse('api_goal_list')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.get(url, {"title": "test post 2",
+                                         "description": "test description 2",
+                                         "group": self.goal.group},
+                                   format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Post.objects.count(), 2)
+        post = Post.objects.get(title='test post 2',
+                                description='test description 2')
+        self.assertEqual(post.user.achievement_set.count(), 1)
 
-    #
     # def test_comment_list(self):
     #     url = reverse('api_comment_list_create')
     #     response = self.client.get(url, {}, format='json')
