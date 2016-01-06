@@ -9,7 +9,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'avatar')
+        fields = ('id', 'username')
 
 
 class UserFriendSerializer(serializers.ModelSerializer):
