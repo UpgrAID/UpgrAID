@@ -33,11 +33,11 @@ class PostTests(APITestCase):
     def test_goal_create(self):
         url = reverse('api_goal_list')
         self.client.force_authenticate(user=self.user2)
-        response = self.client.post(url, {"title": "test goal 2", "theme": 1},
+        response = self.client.post(url, {"title": "test goal 2", "theme": self.theme},
                                     format='json')
         self.client.force_authenticate(user=self.user)
         response2 = self.client.post(url, {"title": "I want to dance",
-                                           "theme": 1}, format='json')
+                                           "theme": self.theme}, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
         goal = Goal.objects.get(title=response.data['title'])
