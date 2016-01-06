@@ -14,6 +14,8 @@ class PostTests(APITestCase):
         self.rank = Rank.objects.create(title='Novice 5', exp_required=15)
         self.user = User.objects.create_user('test', email='test@test.com',
                                             password='testpassword')
+        self.user2 = User.objects.create_user('test2', email='test2@test.com',
+                                            password='test2password')
         self.theme = Theme.objects.create(title='Test Theme')
         self.goal = Goal.objects.create(title='test goal', user=self.user, theme=self.theme)
         self.post = Post.objects.create(title='test post',
@@ -30,14 +32,15 @@ class PostTests(APITestCase):
 
     def test_goal_create(self):
         url = reverse('api_goal_list')
-        self.client.force_authenticate(user=self.user)
+        self.client.force_authenticate(user=self.user2)
         response = self.client.post(url, {"title": "test goal", "theme": 1},
                                    format='json')
+        self.client.force_authenticate(user=self.user)
         response2 = self.client.post(url, {"title": "I want to dance",
                                            "theme": 1}, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Goal.objects.count(), 3)
-        self.assertEqual(self.user.id, response.data['user'])
+        self.assertEqual(self.user2.id, response.data['user'])
         self.assertNotEqual(response.data['group'], response2.data['group'])
         self.assertEqual(response.data['group'], self.goal.group)
         goal = Goal.objects.get(pk=response.data['id'])
