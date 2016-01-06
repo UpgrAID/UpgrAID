@@ -113,7 +113,7 @@ class DetailUpdateDestroyFriendship(generics.RetrieveUpdateDestroyAPIView):
     queryset = Friendship.objects.all()
     serializer_class = FriendshipSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsFromFriendOrReadOnly, IsToFriendOrReadOnly)
+                          IsToFriendOrReadOnly)
 
 
 class ListEarned(generics.ListAPIView):

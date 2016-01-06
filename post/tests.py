@@ -87,10 +87,11 @@ class PostTests(APITestCase):
         comment = Comment.objects.get(description="test comment 2", post=self.post)
         self.assertEqual(comment.user, self.user)
 
-    # def test_group_message_list(self):
-    #     url = reverse('api_group_message_list_create')
-    #     response = self.client.get(url, {}, format='json')
-    #
+    def test_group_message_list(self):
+        url = reverse('api_group_message_list')
+        response = self.client.get(url, {}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
     # def test_user_message_list(self):
     #     url = reverse('api_user_message_list_create')
     #     response = self.client.get(url, {}, format='json')
