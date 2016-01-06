@@ -34,7 +34,7 @@ class PostTests(APITestCase):
         url = reverse('api_goal_list')
         self.client.force_authenticate(user=self.user2)
         response = self.client.post(url, {"title": "test goal 2", "theme": 1},
-                                   format='json')
+                                    format='json')
         self.client.force_authenticate(user=self.user)
         response2 = self.client.post(url, {"title": "I want to dance",
                                            "theme": 1}, format='json')
