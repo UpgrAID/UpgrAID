@@ -10,6 +10,7 @@ from user.models import Theme, Rank
 class PostTests(APITestCase):
 
     def setUp(self):
+        self.rank = Rank.objects.create(title='Novice 5', exp_required=15)
         self.user = User.objects.create_user('test', email='test@test.com',
                                             password='testpassword')
         self.theme = Theme.objects.create(title='Test Theme')
@@ -20,8 +21,6 @@ class PostTests(APITestCase):
         self.comment = Comment.objects.create(post=1,
                                               description='test comment',
                                               user=1)
-        self.rank = Rank.objects.create(title='Novice 5', exp_required=15)
-
     def test_goal_list(self):
         url = reverse('api_goal_list_create')
         response = self.client.get(url, {}, format='json')
