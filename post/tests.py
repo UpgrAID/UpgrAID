@@ -14,13 +14,13 @@ class PostTests(APITestCase):
         self.user = User.objects.create_user('test', email='test@test.com',
                                             password='testpassword')
         self.theme = Theme.objects.create(title='Test Theme')
-        self.goal = Goal.objects.create(title='test goal', user=1, theme=1)
+        self.goal = Goal.objects.create(title='test goal', user=self.user, theme=self.theme)
         self.post = Post.objects.create(title='test post',
                                         description='test description',
-                                        user=1, goal=1)
-        self.comment = Comment.objects.create(post=1,
+                                        user=self.user, goal=self.goal)
+        self.comment = Comment.objects.create(post=self.post,
                                               description='test comment',
-                                              user=1)
+                                              user=self.user)
     def test_goal_list(self):
         url = reverse('api_goal_list_create')
         response = self.client.get(url, {}, format='json')
