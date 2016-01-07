@@ -58,7 +58,7 @@ class PostTests(APITestCase):
                                           "to_friend": self.user3.pk},
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Friendship.objects.count, 2)
+        self.assertEqual(Friendship.objects.count(), 2)
         self.assertEqual(self.user.friend_set.count(), 2)
         self.assertEqual(self.user2.to_friend_set.count, 1)
         self.assertEqual(self.user3.to_friend_set.count, 1)
