@@ -80,4 +80,5 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         gift = BadgeGift.objects.get(receiver=response.data['receiver'])
         self.assertEqual(BadgeGift.objects.count(), 2)
+        self.assertEqual(BadgeGift.objects.filter(sender=self.user).count(), 2)
         self.assertEqual(gift.sender, self.user)
