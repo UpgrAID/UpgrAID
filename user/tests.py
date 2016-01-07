@@ -3,12 +3,13 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APITestCase
-from user.models import Theme, Achievement, BadgeGift, Friendship
+from user.models import Theme, Achievement, BadgeGift, Friendship, Rank
 
 
 class PostTests(APITestCase):
 
     def setUp(self):
+        self.rank = Rank.objects.create(title='Novice 5', exp_required=15)
         self.user = User.objects.create_user('test', email='test@test.com',
                                             password='testpassword')
         self.user2 = User.objects.create_user('test2', email='test2@test.com',
