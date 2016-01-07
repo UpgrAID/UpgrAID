@@ -66,7 +66,7 @@ class PostTests(APITestCase):
         url = reverse('api_post_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        url_username = reverse('api_goal_list') + "?username={}".format(self.user.username)
+        url_username = reverse('api_goal_list') + "?username={}".format(self.user.id)
         response = self.client.get(url_username, {}, format='json')
         self.assertEqual(response.data[0]['user'], self.user.username)
         url_user = reverse('api_goal_list') + "?username={}".format(self.user.id)
