@@ -32,7 +32,7 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         url_username = reverse('api_goal_list') + "?username={}".format(self.user.username)
         response = self.client.get(url_username, {}, format='json')
-        self.assertEqual(response.data[0], self.user)
+        self.assertEqual(response.data[0]['user'], self.user)
 
 
     def test_goal_create(self):
