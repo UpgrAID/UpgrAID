@@ -100,6 +100,10 @@ class ListCreateFriendship(generics.ListCreateAPIView):
     serializer_class = FriendshipSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(from_friend=user)
+
     def get_queryset(self):
         qs = super().get_queryset()
         username = self.request.query_params.get('username', None)
