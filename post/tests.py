@@ -66,6 +66,15 @@ class PostTests(APITestCase):
         url = reverse('api_post_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        url_username = reverse('api_goal_list') + "?username={}".format(self.user.username)
+        response = self.client.get(url_username, {}, format='json')
+        self.assertEqual(response.data[0]['user'], self.user.username)
+        url_user = reverse('api_goal_list') + "?username={}".format(self.user.id)
+        response = self.client.get(url_user, {}, format='json')
+        self.assertEqual(response.data[0]['user'], self.user.id)
+        url_group = reverse('api_goal_list') + "?group={}".format(self.goal.group)
+        response = self.client.get(url_group, {}, format='json')
+        self.assertEqual(response.data[0]['group'], self.goal.group.id)
 
     def test_post_create(self):
         post_achievement = Achievement.objects.create(name='test achievement',
@@ -104,6 +113,9 @@ class PostTests(APITestCase):
         url = reverse('api_user_message_list')
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        url_username = reverse('api_goal_list') + "?username={}".format(self.user.username)
+        response = self.client.get(url_username, {}, format='json')
+        self.assertEqual(response.data[0]['user'], self.user.id)
 
     def test_user_message_create(self):
         url = reverse('api_user_message_list')
