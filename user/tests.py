@@ -54,7 +54,8 @@ class PostTests(APITestCase):
     def test_friendship_create(self):
         url = reverse('api_friendship_list_create')
         self.client.force_authenticate(user=self.user)
-        response = self.client.post(url, {"to_friend": self.user3.pk},
+        response = self.client.post(url, {"from_friend": self.user.pk,
+                                          "to_friend": self.user3.pk},
                                     format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 

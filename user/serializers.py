@@ -71,7 +71,6 @@ class FriendshipSerializer(serializers.ModelSerializer):
     class Meta:
         model = Friendship
         fields = ('id', 'from_friend', 'to_friend', 'accepted')
-        read_only_fields = ('from_friend', )
 
 
 class UserSerializer(serializers.ModelSerializer):
