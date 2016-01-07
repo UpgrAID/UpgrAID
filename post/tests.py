@@ -33,7 +33,9 @@ class PostTests(APITestCase):
         url_username = reverse('api_goal_list') + "?username={}".format(self.user.username)
         response = self.client.get(url_username, {}, format='json')
         self.assertEqual(response.data[0]['user'], self.user.id)
-
+        url_completed_fasle = reverse('api_goal_list') + "?completed=false"
+        response = self.client.get(url_completed_fasle, {}, format='json')
+        self.assertEqual(response.data[0]["completed"], False)
 
     def test_goal_create(self):
         url = reverse('api_goal_list')
