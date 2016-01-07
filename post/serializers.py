@@ -68,7 +68,8 @@ class GroupMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroupMessage
-        fields = ('id', 'user', 'group', 'message', 'sent_at')
+        fields = ('id', 'user', 'group', 'message', 'channel', 'event' 'sent_at')
+        write_only_fields = ('channel', 'event')
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):

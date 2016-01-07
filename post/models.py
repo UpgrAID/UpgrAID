@@ -132,6 +132,8 @@ class GroupMessage(models.Model):
     group = models.ForeignKey(Group, related_name='group')
     sent_at = models.TimeField(auto_now_add=True)
     message = models.TextField()
+    channel = models.CharField(max_length=20, blank=True, null=True)
+    event = models.CharField(max_length=20, blank=True, null=True)
 
 
 @receiver(post_save, sender=GroupMessage)
