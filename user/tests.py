@@ -14,6 +14,8 @@ class PostTests(APITestCase):
                                             password='testpassword')
         self.user2 = User.objects.create_user('test2', email='test2@test.com',
                                             password='test2password')
+        self.user3 = User.objects.create_user('test3', email='test3@test.com',
+                                            password='test3password')
         self.theme = Theme.objects.create(title='Test Theme')
         self.post_achievement = Achievement.objects.create(name='test achievement',
                                                            type='Post',
@@ -50,11 +52,9 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_friendship_create(self):
-        new_user = User.objects.create_user('test3', email='test3@test.com',
-                                            password='test3password')
         url = reverse('api_friendship_list_create')
         self.client.force_authenticate(user=self.user)
-        response = self.client.post(url, {"to_friend": new_user.pk, }, format='json')
+        response = self.client.post(url, {"to_friend": self.user3.pk}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_earned_list(self):
