@@ -49,10 +49,13 @@ class PostTests(APITestCase):
         response = self.client.get(url, {}, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    # def test_friendship_create(self):
-    #     url = reverse('api_friendship_list_create')
-    #     response = self.client.post(url, {}, format='json')
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_friendship_create(self):
+        new_user = User.objects.create_user('test3', email='test3@test.com',
+                                            password='test3password')
+        url = reverse('api_friendship_list_create')
+        self.client.force_authenticate(user=self.user)
+        response = self.client.post(url, {"to_friend": new_user.pk}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_earned_list(self):
         url = reverse('api_earned_list')
