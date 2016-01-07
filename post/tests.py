@@ -37,7 +37,8 @@ class PostTests(APITestCase):
         response = self.client.get(url_completed_false, {}, format='json')
         self.assertEqual(response.data[0]["completed"], False)
         completed_goal = Goal.objects.create(title='test goal', user=self.user,
-                                             theme=self.theme, completed=True)
+                                             theme=self.theme, completed=True,
+                                             group=self.goal.group)
         url_completed_true = reverse('api_goal_list') + "?completed=true"
         response = self.client.get(url_completed_true, {}, format='json')
         self.assertEqual(response.data[0]["completed"], True)
