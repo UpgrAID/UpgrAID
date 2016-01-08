@@ -128,7 +128,7 @@ class Profile(models.Model):
         diff = today - self.last_active
         if self.last_active is None:
             return 'New User'
-        elif diff >= 21:
+        elif diff >= datetime.timedelta(days=21):
             for goal in self.user.goal_set.all():
                 goal.inactive = True
             return 'All goals are inactive'
