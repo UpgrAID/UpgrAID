@@ -51,9 +51,6 @@ class DetailGroup(generics.RetrieveAPIView):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-    def perform_create(self, serializer):
-        serializer.save()
-
 
 class ListRank(generics.ListAPIView):
     queryset = Rank.objects.all()
