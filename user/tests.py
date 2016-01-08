@@ -43,7 +43,7 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         url_username = reverse('api_group_list') + "?username={}".format(self.user.username)
         response2 = self.client.get(url_username, {}, format='json')
-        self.assertTrue("user" in response2.data[0]['user'])
+        self.assertTrue(self.user in response2.data[0]['user'])
 
     def test_rank_list(self):
         url = reverse('api_rank_list')
