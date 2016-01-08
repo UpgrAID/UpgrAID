@@ -63,7 +63,6 @@ class PostTests(APITestCase):
         self.assertEqual(len(goal.similar_goal_list()), 5)
         self.assertEqual((len(goal.closest_goal(goal.similar_goal_list()))), 2)
         self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
-        self.assertEqual(self.user.profile.last_active, datetime.date.today())
 
     def test_post_list(self):
         url = reverse('api_post_list')
