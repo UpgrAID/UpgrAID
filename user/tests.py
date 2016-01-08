@@ -75,7 +75,7 @@ class PostTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         url_username = reverse('api_earned_list') + "?username={}".format(self.user.username)
         response = self.client.get(url_username, {}, format='json')
-        self.assertEqual(response.data[0]['user'], self.user.id)
+        self.assertEqual(response.data[0]['user'], self.user.username)
 
     def test_badge_gift_list(self):
         url = reverse('api_gift_list')
