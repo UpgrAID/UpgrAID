@@ -131,6 +131,7 @@ class Profile(models.Model):
         elif diff >= datetime.timedelta(days=21):
             for goal in self.user.goal_set.all():
                 goal.inactive = True
+                goal.save()
             return 'All goals are inactive'
         else:
             return '{} has been inactive for {} days'.format(self.user, diff)
