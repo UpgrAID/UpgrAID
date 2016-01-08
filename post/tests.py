@@ -1,3 +1,5 @@
+from datetime import timedelta, datetime
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -61,6 +63,9 @@ class PostTests(APITestCase):
         self.assertEqual(len(goal.similar_goal_list()), 5)
         self.assertEqual((len(goal.closest_goal(goal.similar_goal_list()))), 2)
         self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
+        self.user.profile.last_active = datetime.now() - timedelta(days=22)
+        self.user.profile.activity()
+        self.assertEqual(goal2.inactive, True)
 
     def test_post_list(self):
         url = reverse('api_post_list')
