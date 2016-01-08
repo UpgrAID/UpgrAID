@@ -133,7 +133,6 @@ class Profile(models.Model):
             for goal in self.user.goal_set.all():
                 goal.inactive = True
                 goal.save()
-            return
         return
 
     def rank_up(self):

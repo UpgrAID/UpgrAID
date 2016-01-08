@@ -63,7 +63,7 @@ class PostTests(APITestCase):
         self.assertEqual(len(goal.similar_goal_list()), 5)
         self.assertEqual((len(goal.closest_goal(goal.similar_goal_list()))), 2)
         self.assertEqual(goal.closest_goal(goal.similar_goal_list())[1][0], self.goal)
-        self.user.profile.last_active = datetime.date.today() - datetime.timedelta(days=22)
+        self.user.profile.last_active = datetime.date.today() - datetime.timedelta(days=50)
         self.user.profile.activity()
         self.user.profile.save()
         self.assertEqual(goal2.inactive, True)
