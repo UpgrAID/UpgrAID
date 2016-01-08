@@ -124,17 +124,17 @@ class Profile(models.Model):
         checks activity, if last active is greater the 21 days mark inactive
         for all goals
         """
-        today = datetime.date.today()
-        diff = today - self.last_active
+        today = datetime.datetime.now()
+        diff = today - datetime.datetime.strptime(str(self.last_active),
+                                                  '%Y-%m-%d')
         if self.last_active is None:
-            return 'New User'
-        elif diff >= datetime.timedelta(days=21):
+            return
+        elif diff.days >= 21:
             for goal in self.user.goal_set.all():
                 goal.inactive = True
                 goal.save()
-            return 'All goals are inactive'
-        else:
-            return '{} has been inactive for {} days'.format(self.user, diff)
+            return
+        return
 
     def rank_up(self):
         if self.exp >= self.rank.exp_required:
