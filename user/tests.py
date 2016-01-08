@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from post.models import Goal
+from post.models import Post
 from rest_framework import status
 from rest_framework.test import APITestCase
 from user.models import Theme, Achievement, BadgeGift, Friendship, Rank
@@ -25,6 +27,10 @@ class PostTests(APITestCase):
         self.badge_gift = BadgeGift.objects.create(sender=self.user,
                                                    receiver=self.user2,
                                                    amount=1)
+        self.goal = Goal.objects.create(title='test goal', user=self.user, theme=self.theme)
+        self.post = Post.objects.create(title='test post',
+                                        description='test description',
+                                        user=self.user, group=self.goal.group)
 
     def test_theme_list(self):
         url = reverse('api_theme_list')
