@@ -120,8 +120,10 @@ class Profile(models.Model):
         return count
 
     def activity(self):
-        # checks activity, if last active is greater the 21 days mark inactive
-        # for all goals
+        """
+        checks activity, if last active is greater the 21 days mark inactive
+        for all goals
+        """
         today = datetime.date.today()
         diff = today - self.last_active
         if self.last_active is None:
