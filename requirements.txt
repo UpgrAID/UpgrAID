@@ -1,5 +1,5 @@
 cffi==1.4.1
-cryptography==1.1.2
+cryptography==3.2
 dj-config-url==0.1.1
 dj-database-url==0.3.0
 dj-static==0.0.6
