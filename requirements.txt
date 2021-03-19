@@ -9,7 +9,7 @@ django-cors-headers==1.1.0
 django-debug-toolbar==1.4
 django-extensions==1.5.9
 django-toolbelt==0.0.1
-djangorestframework==3.3.1
+djangorestframework==3.11.2
 gunicorn==19.4.1
 idna==2.0
 ndg-httpsclient==0.4.0
