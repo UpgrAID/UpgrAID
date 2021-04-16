@@ -6,7 +6,7 @@ dj-static==0.0.6
 Django==1.9
 django-bootstrap3==6.2.2
 django-cors-headers==1.1.0
-django-debug-toolbar==1.4
+django-debug-toolbar==1.11.1
 django-extensions==1.5.9
 django-toolbelt==0.0.1
 djangorestframework==3.3.1
